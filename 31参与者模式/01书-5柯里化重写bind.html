@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<button>按钮</button>
+		<p>p标签</p>
+	</body>
+	<script>
+		//重写bind
+		function bind(fn, context) {
+			//缓存数组slice方法
+			var slice = Array.prototype.slice,
+				//从第三个参数开始截取参数(包括第三个参数)
+				args = slice.call(arguments, 2);
+			//返回新方法
+			return function() {
+				//将参数转化为数组
+				var addArgs = slice.call(arguments),
+					//拼接参数
+					allArgs = addArgs.concat(args);
+				//对fn装饰并返回
+				return fn.apply(context, allArgs);
+			}
+		}
+		//兼容各个浏览器
+		if(Function.prototype.bind === undefined) {
+			Function.prototype.bind = function(context) {
+				//缓存数组slice方法
+				var slice = Array.prototype.slice,
+					//从第二个参数截取参数
+					args = slice.call(arguments, 1),
+					//保存当前函数引用
+					that = this;
+				//返回新函数
+				return function() {
+					//将参数数组化
+					var addArgs = slice.call(arguments),
+						//拼接参数，注意:传入的参数放在了后面
+						allArgs = args.concat(addArgs);
+					//对当前函数装饰并返回
+					return that.apply(context, allArgs);
+				}
+			}
+		}
+		var demoData1 = {
+				text: '这是第一组数据'
+			},
+			demoData2 = {
+				text: '这是第二组数据'
+			};
+		var p = document.getElementsByTagName(p)[0];
+
+		//提供btn元素、demoData1参 与对象
+		// var bindFn = bind(demoFn, btn, demoData1);
+		// chrome输出: [MouseEvent, object] <button>按钮</button>
+		//提供btn元素、demoData1、 demoData2参 与对象
+		// var bindFn = bind(demoFn, btn, demoData1, demoData2);
+		// chrome输出: [MouseEvent, object, object] <button>按钮</button>
+		//提供p元素、demoData1参 与对象
+
+		//对demoFn改进，在控制台输出参数与this对象
+		function demoFn() {
+			console.log(arguments, this);
+		}
+
+		var bindFn = bind(demoFn, p, demoData1); // [MouseEvent, object] <p> hello</p>
+
+		var bindFn1 = demoFn.bind(p, demoData1);
+		// chrome输出: [object, MouseEvent] <p> hello </p>
+	</script>
+
+</html>

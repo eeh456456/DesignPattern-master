@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+	</body>
+	<script>
+		bindReady: function() {
+			// ...
+			// Mozilla, Opera and webkit 支持
+			if(document.addEventListener) {
+				document.addEventListener('DOMContentLoaded', DOMContentLoaded, false)
+
+				// A fallback to window.onload, that will always work
+				window.addEventListener('load', jQuery.ready, false)
+
+				// 如果使用了 IE 的事件绑定形式
+			} else if(document.attachEvent) {
+				document.attachEvent('onreadystatechange', DOMContentLoaded)
+
+				// A fallback to window.onload, that will always work
+				window.attachEvent('onload', jQuery.ready)
+			}
+			// ...
+		}
+	</script>
+
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			.customSpan {
+				margin-left: 10px;
+				cursor: pointer;
+			}
+		</style>
+	</head>
+
+	<body>
+		<h1>消息注册方法</h1>功能：将订阅者注册的消息推入到消息队列中，<br> 因此我们需要接受两个参数:消息类型以及相应的处理动作，
+		<br> 在推入到消息队列时如果此消息不存在则应该创建一个该消息类型并将该消息放入消息队列中，
+		<br> 如果此消息存在则应该将消息执行方法推入该消息对应的执行方法队列中，
+		<br> 这么做的目的也是保证多个模块注册同一则消息时能顺利执行。
+		<br>
+		<br>
+		<br>
+		<h1>发布消息方法</h1>了功能：当观察者发布一个消息时将所有订阅者订阅的消息一次执行。<br> 故应接收两个参数，消息类型以及动作执行时需要传递的参数，当然在这里消息类型是必须的。
+		<br> 在执行消息动作队列之前校验消息的存在是很有必要的。然后遍历消息执行方法队列，并依次执行。
+		<br> 然后将消息类别以及传递的参数打包后依次传入消息执行方法中。
+		<br>
+		<br>
+		<br>
+		<h1>消息注销方法</h1>其功能:将订阅者注销的消息从消息队列中清除，因此我们也需要两个参数，<br> 即消息类型以及执行的某一动作。当然为了避免删除消息动作时消息不存在情况的出现，
+		<br> 对消息队列中消息的存在性校验也是很有必要的。
+		<br>
+		<ul id="msg"></ul>
+		<div id="msg_num">10</div>
+		<input type="text" id="user_input" />
+		<button id="user_submit">提交</button>
+	</body>
+	<script>
+		/// 雏形
+		//将观察者放在闭包中，当页面加载就立即执行
+		/*
+		var Observer = (function() {
+			//防止消息队列暴漏而被篡改故将消息容器作为静态私有变量保存
+			var __messages = {};
+			return {
+				//注册信息接口
+				regist: function() {
+
+				},
+				//发布信息接口
+				fire: function() {
+
+				},
+				//移除信息接口
+				remove: function() {
+
+				}
+			}
+		})();
+		
+		*/
+
+		//2 实现3个方法
+		var Observer = (function() {
+			//防止消息队列暴漏而被篡改故将消息容器作为静态私有变量保存
+			var __messages = {};
+			return {
+				//注册信息接口
+				regist: function(type, fn) {
+					//如果此消息不存在则应该创建一个该消息类型
+					if(typeof __messages[type] === 'undefined') {
+						//将动作推入到该消息对应的动作执行队列中
+						__messages[type] = [fn];
+						//如果此消息存在
+					} else {
+						//将动作方法推入该消息对应的动作执行序列中
+						__messages[type].push(fn);
+					}
+				},
+				//发布信息接口
+				fire: function(type, args) {
+					//如果该消息设有被注册，则返回
+					if(!__messages[type]) {
+						return;
+					} //定义消息信息
+					var events = {
+							type: type, //消息类型
+							args: args || {} //消息携带数据
+						},
+						i = 0, //消息动作循环变量
+						len = __messages[type].length; // 消息动作长度
+					//遍历消息动作
+					for(; i < len; i++) {
+						//依次执行注册的消息对应的动作序列
+						__messages[type][i].call(this, events); //call是用来重新定义this对象
+					}
+				},
+				//移除信息接口
+				remove: function(type, fn) {
+					//如果消息动作队列存在
+					if(__messages[type] instanceof Array) {
+						//从最后一个消息动作遍历
+						var i = __messages[type].length - 1;
+						for(; i >= 0; i--) {
+							//如果存在该动作则在消息动作序列中移除相应动作
+							__messages[type][i] === fn && __messages[type].splice(i, 1);
+						}
+					}
+				}
+			}
+		})();
+
+		Observer.regist('test', function(e) {
+			console.log(e.type, e.args.msg); //test 传递参数
+		});
+
+		//然后我们发布这则消息。
+		Observer.fire('test', {
+			msg: '传递参数'
+		}); // test传递参数
+
+		//消息注册
+
+		//外观模式简化获取元素
+		function $(id) {
+			return document.getElementById(id);
+		}
+
+		//编写者A
+		(function() {
+			//追加一则消息
+			function addMsgItem(e) {
+				var text = e.args.text, //获取消息中用户添加的文本内容
+					ul = $('msg'), //留言容器元素
+					li = document.createElement('li'), //创建内容容器元表
+					span = document.createElement('span'); // 删除按钮
+				li.innerHTML = text;
+				span.innerText = '删除' //这一行是我补的
+				span.className = 'customSpan'//这一行也是我补的
+				//写入评论
+				//关闭按钮
+				span.onclick = function() {
+					ul.removeChild(li);
+					//移除留言
+					//发布删除留言消息
+					Observer.fire('removeCommentMessage', {
+						num: -1
+					});
+				}
+				//添加删除按钮
+				li.appendChild(span);
+				//添加留言节点
+				ul.appendChild(li);
+			}
+			//注册添加评论信息
+			Observer.regist('addCommentMessage', addMsgItem);
+		})();
+		//实现递增用户信息功能也很容易， 只需要在原信息数目基础上 加一即可。
+		//编写者B
+		(function() {
+			//更改用户消息数目
+			function changeMsgNum(e) {
+				//获取需要增加的用户消息数目
+				var num = e.args.num;
+				//增加用户消息数目并写入页面中
+				$('msg_num').innerHTML = parseInt($('msg_num').innerHTML) + num;
+			}
+			//注册添加评论信息
+			Observer.regist('addCommentMessage', changeMsgNum);
+			Observer.regist('removeCommentMessage', changeMsgNum);
+		})();
+		//最后对于一个用户来说， 当他提交信息时， 就要触发消息发布 功能。
+		//编写者C
+		(function() {
+			//用户点击提交按钮
+			$('user_submit').onclick = function() {
+				//获取用户输入框中输入的信息
+				var text = $('user_input');
+				//如果消息为空则提交失败
+				if(text.value === '') {
+					return;
+				}
+				//发布一则评论消息
+				Observer.fire('addCommentMessage', {
+					text: text.value, //消息评论内容
+					num: 1 //消息评论数目
+				});
+				text.value = ''; //将输入框置为空
+			}
+		})();
+	</script>
+
+</html>

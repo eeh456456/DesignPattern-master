@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+	</body>
+	<script>
+		var VehicleFactory = function(subType, superType) {
+			//判断抽象工厂中是否有该抽象类
+			if(typeof VehicleFactory[superType] === 'function') {
+				//缓存类
+				function F() {};
+				//继承父类的属性和方法
+				F.prototype = new VehicleFactory[superType]();
+				//将子类的constructor指向子类
+				subType.constructor = subType;
+				//子类原型继承父类
+				subType.prototype = new F();
+			} else {
+				//不存在该抽象类抛出错误
+				throw new Error('未创建该抽象类');
+			}
+		}
+
+
+		//卡车抽象类
+		VehicleFactory.Truck = function() {
+			this.type = 'truck';
+		}
+		VehicleFactory.Truck.prototype = {
+			getPrice: function() {
+				return new Error('抽象方法不能调用')
+			},
+			getTrainload: function() {
+				return new Error('抽象方法不能调用')
+			}
+		}
+		
+		var trunk = new BenzTruck(10000, 100);
+		console.log(trunk.getPrice())//10000
+		console.log(trunk.type)//truck
+	</script>
+
+</html>

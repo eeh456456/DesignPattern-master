@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			#showColor {
+				width: 400px;
+				height: 400px;
+			}
+			
+			.red {
+				background-color: red;
+			}
+		</style>
+	</head>
+
+	<body>
+		装饰者模式(Decorator): 在不改变原对象的基础上，通过对其进行包装拓展(添加属性或者方法)<br> 使原有对象可以满足用户的更复杂需求。
+		<br> 为页面的输入框增加新功能
+
+		<input type="text" id="input" onclick="inputClick()">
+
+		<div id="showNumber"></div>
+		<div id="showColor"></div>
+	</body>
+	<script>
+		var number = 0
+		//1装饰者
+		var decorator = function(input, fn) {
+			//获取事件源
+			var input = document.getElementById(input);
+			//若事件源己经绑定事件
+			if(typeof input.onclick === 'function') {
+				//缓存事件源原有回调函数
+				var oldclickFn = input.onclick;
+				//为事件源定义新的事件
+				input.onclick = function() {
+					//事件源原有回调函数
+					oldclickFn();
+					//执行事件源新增回调函数
+					fn();
+				}
+			} else {
+				//事件源未绑定事件，直接为事件源添加新增回调函数
+				input.onclick = fn;
+			}
+			//做其他事情
+		}
+
+		function inputClick() {
+			document.getElementById('showNumber').innerText = ++number;
+		}
+
+		decorator('input', function() {
+			document.getElementById('showColor').className = 'red';
+			console.log("已执行后续js代码")
+		});
+	</script>
+
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		之前的例子中，单例模式的创建逻辑和原先这个类的一些功能逻辑（比如 init 等操作）混杂在一起，<br> 根据单一职责原则，这个例子我们还可以继续改进一下，将单例模式的创建逻辑和特定类的功能逻辑拆开，这样功能逻辑就可以和正常的类一样。
+	</body>
+	<script>
+		/* 功能类 */
+		class FuncClass {
+			constructor(bar) {
+				this.bar = bar
+				this.init()
+			}
+
+			init() {
+				this.foo = 'Singleton Pattern'
+			}
+		}
+
+		/* 单例模式的赋能类 */
+		const Singleton = (function() {
+			let _instance = null // 存储单例
+
+			const ProxySingleton = function(bar) {
+				if(_instance) return _instance // 判断是否已有单例
+				_instance = new FuncClass(bar)
+				return _instance
+			}
+
+			ProxySingleton.getInstance = function(bar) {
+				if(_instance) return _instance
+				_instance = new Singleton(bar)
+				return _instance
+			}
+
+			return ProxySingleton
+		})()
+
+		const visitor1 = new Singleton('单例1')
+		const visitor2 = new Singleton('单例2')
+		const visitor3 = Singleton.getInstance()
+
+		console.log(visitor1 === visitor2) // true
+		console.log(visitor1 === visitor3) // true
+	</script>
+
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+	</body>
+	<script>
+		off: function(types, selector, fn) {
+			// ...
+
+			if(selector === false || typeof selector === 'function') {
+				// ( types [, fn] ) 的使用方式
+				fn = selector
+				selector = undefined
+			}
+
+			// ...
+		}
+
+		jQuery.fn.load = function(url, params, callback) {
+			// ...
+
+			if(isFunction(params)) {
+				callback = params
+				params = undefined
+			}
+
+			// ...
+		}
+	</script>
+
+</html>

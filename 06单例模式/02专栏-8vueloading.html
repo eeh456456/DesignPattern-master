@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>01书-3</title>
+	</head>
+
+	<body>
+		以 ElementUI 为例，ElementUI 中的全屏 Loading 蒙层调用有两种形式：<br>
+		 上面的是指令形式注册，使用的方式<br>
+		<div :v-loading.fullscreen="true">...</div>； <br>
+		下面的是服务形式注册，使用的方式 this.$loading({ fullscreen: true })；<br>
+	</body>
+	<script>
+		// 1. 指令形式
+		Vue.use(Loading.directive)
+		// 2. 服务形式
+		Vue.prototype.$loading = service
+
+		import Vue from 'vue'
+		import loadingVue from './loading.vue'
+
+		const LoadingConstructor = Vue.extend(loadingVue)
+
+		let fullscreenLoading
+
+		const Loading = (options = {}) => {
+			if(options.fullscreen && fullscreenLoading) {
+				return fullscreenLoading
+			}
+
+			let instance = new LoadingConstructor({
+				el: document.createElement('div'),
+				data: options
+			})
+
+			if(options.fullscreen) {
+				fullscreenLoading = instance
+			}
+			return instance
+		}
+
+		export default Loading
+	</script>
+
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		有的使用 jQuery 的老项目使用 $.ajax 来发送请求，现在的新项目一般使用 Axios，<br> 
+		那么现在有个老项目的代码中全是 $.ajax，如果你挨个修改，那么 bug 可能就跟地鼠一样到处冒出来让你焦头烂额，<br> 
+		这时可以采用适配器模式来将老的使用形式适配到新的技术栈上：
+	</body>
+	<script>
+		/* 适配器 */
+		function ajax2AxiosAdapter(ajaxOptions) {
+			return axios({
+					url: ajaxOptions.url,
+					method: ajaxOptions.type,
+					responseType: ajaxOptions.dataType,
+					data: ajaxOptions.data
+				})
+				.then(ajaxOptions.success)
+				.catch(ajaxOptions.error)
+		}
+
+		/* 经过适配器包装 */
+		$.ajax = function(options) {
+			return ajax2AxiosAdapter(options)
+		}
+
+		$.ajax({
+			url: '/demo-url',
+			type: 'POST',
+			dataType: 'json',
+			data: {
+				name: '张三',
+				id: '2345'
+			},
+			success: function(data) {
+				console.log('访问成功！')
+			},
+			error: function(err) {
+				console.err('访问失败～')
+			}
+		})
+	</script>
+
+</html>

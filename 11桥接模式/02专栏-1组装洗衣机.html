@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		厂家在生产洗衣机、冰箱、空调等电器的时候，不同型号产品之间有一些部件，比如变频洗衣机：<br> 产品型号 A 有小功率电机、直立滚筒、小功率变频器；<br> 产品型号 B 有中功率电机、横置滚筒、中功率变频器；<br> 产品型号 C 有大功率电机、横置滚筒、大功率变频器；<br> 洗衣机产品由这三个部分组成，那么可以提取电机、滚筒、变频器部件作为抽象维度，
+		<br> 在新建洗衣机实例的时候，把抽象出来的部件桥接起来组成一个完整的洗衣机实例。
+		<br> 在变频洗衣机系列产品中，产品的部件可以沿着各自维度独立地变化。
+		<br>
+	</body>
+	<script>
+		/* 组装洗衣机 */
+		function Washer(motorType, rollerType, transducerType) {
+			this.motor = new Motor(motorType)
+			this.roller = new Roller(rollerType)
+			this.transducer = new Transducer(transducerType)
+		}
+
+		Washer.prototype.work = function() {
+			this.motor.run()
+			this.roller.run()
+			this.transducer.run()
+		}
+
+		/* 电机 */
+		function Motor(type) {
+			this.motorType = type + '电机'
+		}
+
+		Motor.prototype.run = function() {
+			console.log(this.motorType + '开始工作')
+		}
+
+		/* 滚筒 */
+		function Roller(type) {
+			this.rollerType = type + '滚筒'
+		}
+
+		Roller.prototype.run = function() {
+			console.log(this.rollerType + '开始工作')
+		}
+
+		/* 变频器 */
+		function Transducer(type) {
+			this.transducerType = type + '变频器'
+		}
+
+		Transducer.prototype.run = function() {
+			console.log(this.transducerType + '开始工作')
+		}
+
+		// 新建洗衣机
+		var washerA = new Washer('小功率', '直立', '小功率')
+		washerA.work()
+
+		// 输出：小功率电机开始工作
+		//      直立滚筒开始工作
+		//      小功率变频器开始工作
+
+		//由于产品部件可以独立变化，所以创建新的洗衣机产品就非常容易：
+
+		var washerD = new Washer('小功率', '直立', '中功率')
+		washerD.work()
+
+		// 输出：小功率电机开始工作
+		//      直立滚筒开始工作
+		//      中功率变频器开始工作
+		/*
+		 	可以看到由于洗衣机的结构被分别抽象为几个部件的组合，
+			部件的实例化是在部件类各自的构造函数中完成，因此部件之间的实例化不会相互影响，
+			新产品的创建也变得容易，这就是桥接模式的好处。
+		*/
+	</script>
+
+</html>

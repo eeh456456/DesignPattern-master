@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+	</body>
+	<script>
+		//java的单例模式
+		public class SingleObject {
+			//注意，私有化构造函数，外部不能new，只能内部能new ! ! ! !
+			private SingleObject() {}
+			//唯一被new出来的对象
+			private SingleObject instance = null;
+			//获取对象的唯一接口
+			public SingleObject getInstance() {
+				if(instance == null) {
+					//只new一次
+					instance = new SingleObject();
+				}
+				return instance;
+			}
+			//对象方法
+			public void login(username, password) {
+				System.out.println("login...")
+			}
+		}
+
+		public class SingletonPatternDemo {
+			public static void main(String[] args) {
+				//不合法的构造函数
+				//编译时错误:构造函数SingleObject()是不可见的! ! !
+				//Single0bject object = new SingleObject(); 
+
+				//获取唯一可用的对象
+				SingleObject object = SingleObject.getInstance();
+				object.login();
+			}
+		}
+	</script>
+
+</html>

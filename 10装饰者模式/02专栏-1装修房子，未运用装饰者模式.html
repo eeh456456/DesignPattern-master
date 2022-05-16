@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		相信大家都有过房屋装修的经历，当毛坯房建好的时候，已经可以居住了，虽然不太舒适。<br>
+		一般我们自己住当然不会住毛坯，因此我们还会通水电、墙壁刷漆、铺地板、家具安装、电器安装等等步骤，<br>
+		让房屋渐渐具有各种各样的特性，比如墙壁刷漆和铺地板之后房屋变得更加美观，有了家具居住变得更加舒适，<br>
+		但这些额外的装修并没有影响房屋是用来居住的这个基本功能，这就是装饰的作用。<br>
+		我们可以使用 JavaScript 来将装修房子的例子实现一下：<br>
+	</body>
+	<script>
+		/* 毛坯房 - 目标对象 */
+		function OriginHouse() {}
+
+		OriginHouse.prototype.getDesc = function() {
+			console.log('毛坯房')
+		}
+
+		/* 搬入家具 - 装饰者 */
+		function Furniture(house) {
+			this.house = house
+		}
+
+		Furniture.prototype.getDesc = function() {
+			this.house.getDesc()
+			console.log('搬入家具')
+		}
+
+		/* 墙壁刷漆 - 装饰者 */
+		function Painting(house) {
+			this.house = house
+		}
+
+		Painting.prototype.getDesc = function() {
+			this.house.getDesc()
+			console.log('墙壁刷漆')
+		}
+
+		var house = new OriginHouse()
+		house = new Furniture(house)
+		house = new Painting(house)
+
+		house.getDesc()
+		// 输出： 毛坯房  搬入家具  墙壁刷漆
+	</script>
+
+</html>

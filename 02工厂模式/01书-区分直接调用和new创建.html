@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		安全的工厂模式
+	</body>
+	<script>
+		var Factory = function(type, content, str) {
+			//这里是为了区分new创建和方法调用
+			if(this instanceof Factory) {
+				console.log(1, str)
+				var s = new this[type](content);
+				return s
+			} else {
+				console.log(2, str)
+				return new Factory(type, content)
+			}
+		}
+
+		Factory.prototype.Java = function(content) {
+			console.log('Java:' + content)
+		}
+
+		Factory.prototype.Python = function(content) {
+			console.log('Python：' + content)
+		}
+
+		var data = [{
+				type: 'Java',
+				content: 'Java初始化'
+			},
+			{
+				type: 'Python',
+				content: 'Python初始化'
+			}
+		]
+
+		for(var i = 0, len = data.length; i < len; i++) {
+			Factory(data[i].type, data[i].content, '直接调用')
+		}
+
+		var instance = new Factory('Java', 123456, 'new调用')
+	</script>
+
+</html>

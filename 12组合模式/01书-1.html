@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		将对象组合成树形结构以表示"部分整体"的层次结构。组合模式使得用户对单个对 象和组合对象的使用具有一致性。 为强化首页用户体验，经理准备在用户首页添加一个新闻模块,当然新闻的内容是根据用户平时关注的内容挖掘的， 因此有的人可能 会显示文字新闻，有的人会是图片新闻，甚至有的人显示的新闻是一 个直播链接，方便用户观看比赛....
+		注：这个事例的代码中有方法未定义，不用看了。
+	</body>
+	<script>
+		//让所有的新闻都继承一个新闻虚拟父类News
+		var News = function() {
+			//子组件容器
+			this.children = [];
+			//当前组件元素
+			this.element = null;
+		}
+
+		News.prototype = {
+			init: function() {
+				throw new Error('请重写你的方法');
+			},
+			add: function() {
+				throw new Error('请重写你的方法');
+			},
+			getElement: function() {
+				throw new Error('请重写你的方法');
+			}
+		}
+		//容器类构造函数
+		var container = function(id, parent) {
+			//构造函数继承父类
+			News.call(this);
+			//模块id
+			this.id = id;
+			//模块的父容器
+			this.parent = parent;
+			//构建方法
+			this.init();
+		}
+
+		//寄生式继承父类原型方法
+		inheritPrototype(container, News);
+		//构建方法
+		container.prototype.init = function() {
+			this.element = document.createElement('ul');
+			this.element.id = this.id;
+			this.element.className = 'new-container';
+		};
+
+		//添加子元素方法
+		container.prototype.add = function(child) {
+			//在子元素容器中插入子元素
+			this.children.push(child);
+			//插入当前组件元素树中
+			this.element.appendchild(child.getElement());
+			return this
+		}
+
+		//获取当前元素方法
+		container.prototype.getElement = function() {
+			return this.element;
+		}
+		//显示方法
+		container.prototype.show = function() {
+			this.parent.appendchild(this.element);
+		}
+		//同样下一层级的行成员集合类以及后面的新闻组合体类实现的方式与之类似。
+		var Item = function(classname) {
+			News.call(this);
+			this.classname = classname || '';
+			this.init();
+		}
+		inheritPrototype(Item, News);
+		Item.prototype.init = function() {
+			this.element = document.createElement('li');
+			this.element.className = this.classname;
+		}
+		Item.prototype.add = function(child) {
+			//在子元索容器中插入子元素
+			this.children.push(child);
+			//插入当前组件元素树中
+			this.element.appendchild(child.getElement());
+			return this;
+		}
+		Item.prototype.getElement = function() {
+			return this.element;
+		}
+
+		//新闻组
+		var NewsGroup = function(classname) {
+			News.call(this);
+			this.classname = classname || '';
+			this.init();
+		}
+		inheritPrototype(NewGroup, News);
+		NewsGroup.prototype.init = function() {
+			this.element = document.createElement("div");
+			this.element.className = this.classname;
+		}
+		NewsGroup.prototype.add = function(child) {
+			//在子元素容器中插入子元素
+			this.children.push(child);
+			//插入当前组件元索树中
+			this.element.appendchild(child.getElement());
+			return this;
+		}
+		NewsGroup.prototype.getElement = function() {
+			return this.element;
+		}
+
+		//图片新闻类
+		var ImageNews = function(url, href, classname) {
+			News.call(this);
+			this.url = url || '';
+			this.href = href || '#';
+			this.classname = classname || 'normal';
+			this.init();
+		}
+		inheritPrototype(ImageNews, News);
+		ImageNews.prototype.init = function() {
+			this.element = document.createElement("a");
+			var img = new Image();
+			img.src = this.url;
+			this.element.appendchild(img);
+			this.element.className = 'image-news ' + this.classname;
+			this.element.href = this.href;
+		}
+		ImageNews.prototype.add = function() {}
+		ImageNews.prototype.getElement = function() {
+			return this.element;
+		}
+
+		//图标新闻类
+		var IconNews = function(text, href, type) {
+			News.call(this);
+			this.text = text || '';
+			this.href = href || '#';
+			this.type = type || 'video';
+			this.init();
+		}
+		inheritPrototype(IconNews, News);
+		IconNews.prototype.init = function() {
+			this.element = document.createElement('a');
+			this.element.innerHTML = this.text;
+			this.element.href = this.href;
+			this.element.className = 'icon ' + this.type;
+		}
+		IconNews.prototype.add = function() {}
+		IconNews.prototype.getElement = function() {
+			return this.element;
+		}
+
+		//简单新闻
+		var EasyNews = function(text, href) {
+			News.call(this);
+			this.text = text || '';
+			this.href = href || '#';
+			this.init();
+		}
+		inheritPrototype(EasyNews, News);
+		EasyNews.prototype.init = function() {
+			this.element = document.createElement('a');
+			this.element.innerHTML = this.text;
+			this.element.href = this.href;
+			this.element.className = 'text';
+		}
+		EasyNews.prototype.add = function() {}
+		EasyNews.prototype.getElement = function() {
+			return this.element;
+		}
+
+		//
+		var TypeNews = function(text, href, type, pos) {
+			News.call(this);
+			this.text = text || '';
+			this.href = href || '#';
+			this.type = type || '';
+			this.pos = pos || 'left';
+			this.init();
+		}
+		inheritPrototype(TypeNews, News);
+		TypeNews.prototype.init = function() {
+			this.element = document.createElement('a');
+			if(this.pos === 'left') {
+				this.element.innerHTML = '[' + this.type + ']' + this.text;
+			} else {
+				this.element.innerHTML = this.text + '[' + this.type + ']';
+			}
+			this.element.href = this.href;
+			this.element.className = 'text';
+		}
+		TypeNews.prototype.add = function() {}
+		TypeNews.prototype.getElement = function() {
+			return this.element;
+		}
+		/*把新闻模块创建出来
+		     新闻类都创建了，可是我在使用时，就要通过add方法像一棵树一样一层一层创建新闻就可以了。
+		*/
+		var news1 = new container('news', document.body);
+		news1.add(
+			new Item('normal').add(
+				new IconNews('梅西不拿金球也伟大', '#', 'video')
+			)
+		).add(
+			new Item('normal').add(
+				new IconNews('保护强国强队用意明显', '#', 'live')
+			)
+		).add(new Item('normal').add(
+			new NewsGroup('has-img').add(
+				new ImageNews('img/1.jpg', '#', 'small')
+			).add(
+				new EasyNews('从240斤胖子成功变型男', '#')
+			).add(
+				new EasyNews('五大雷人跑步机', '#')
+			)
+		)).add(
+			new Item('normal').add(
+				new TypeNews('AK47不愿为费城打球', '#', 'NBA', 'left')
+			)
+		).add(new Item('normal').add(
+			new TypeNews('火炮飈6三分创新高', '#', 'cBA', 'right')
+		)).show();
+	</script>
+
+</html>

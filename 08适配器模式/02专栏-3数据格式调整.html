@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		在实际项目中，我们经常会遇到树形数据结构和表形数据结构的转换，<br> 比如全国省市区结构、公司组织结构、军队编制结构等等。以公司组织结构为例，
+		<br> 在历史代码中，后端给了公司组织结构的树形数据，在以后的业务迭代中，
+		<br> 会增加一些要求非树形结构的场景。比如增加了将组织维护起来的功能，因此就需要在新增组织的时候选择上级组织，
+		<br> 在某个下拉菜单中选择这个新增组织的上级菜单。或者增加了将人员归属到某一级组织的需求，需要在某个下拉菜单中选择任一级组织。
+		<br>
+		<br> 在这些业务场景中，都需要将树形结构平铺开，但是我们又不能直接将旧有的树形结构状态进行修改，
+		<br>因为在项目别的地方已经使用了老的树形结构状态，<br> 这时我们可以引入适配器来将老的数据结构进行适配：
+	</body>
+	<script>
+		/* 原来的树形结构 */
+		const oldTreeData = [{
+			name: '总部',
+			place: '一楼',
+			children: [{
+					name: '财务部',
+					place: '二楼'
+				},
+				{
+					name: '生产部',
+					place: '三楼'
+				},
+				{
+					name: '开发部',
+					place: '三楼',
+					children: [{
+						name: '软件部',
+						place: '四楼',
+						children: [{
+								name: '后端部',
+								place: '五楼'
+							},
+							{
+								name: '前端部',
+								place: '七楼'
+							},
+							{
+								name: '技术支持部',
+								place: '六楼'
+							}
+						]
+					}, {
+						name: '硬件部',
+						place: '四楼',
+						children: [{
+								name: 'DSP部',
+								place: '八楼'
+							},
+							{
+								name: 'ARM部',
+								place: '二楼'
+							},
+							{
+								name: '调试部',
+								place: '三楼'
+							}
+						]
+					}]
+				}
+			]
+		}]
+
+		/* 树形结构平铺 */
+		function treeDataAdapter(treeData, lastArrayData = []) {
+			treeData.forEach(item => {
+				if(item.children) {
+					treeDataAdapter(item.children, lastArrayData)
+				}
+				const {
+					name,
+					place
+				} = item
+				lastArrayData.push({
+					name,
+					place
+				})
+			})
+			return lastArrayData
+		}
+
+		treeDataAdapter(oldTreeData)
+
+		// 返回平铺的组织结构
+	</script>
+
+</html>

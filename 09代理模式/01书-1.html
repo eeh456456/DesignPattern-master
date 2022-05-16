@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+	</body>
+	<script>
+		var Count = (function() {
+			//缓存图片（参考备忘录模式）
+			var _img = new Image();
+			//返回统计函数
+			return function(param) {
+				//统计请求字符串
+				var str = 'http://www.***.com/a.gif?';
+				//拼接请求字符串
+				for(var i in param) {
+					str += i + '=' + param[i];
+				}
+				//发送统计请求
+				_img.src = str;
+			}
+		})();
+		//测试用例，统计num
+		Count({
+			num: 10
+		});
+	</script>
+	<script>
+		//回调函数，打印出请求数据与响应数据
+		function jsonpCallBack(res, req) {
+			console.log(res, req)
+		}
+	</script>
+	<script src="http://localhost/test/jsonp.php?callback=jsonpCallBack&data=getJsonPData">
+	</script>
+</html>

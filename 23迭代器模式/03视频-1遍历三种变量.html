@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<p> jquery each</p>
+		<p> jquery each</p>
+		<p> jquery each</p>
+
+		<div>
+			<a href="#">a1</a>
+			<a href="#">a2</a>
+			<a href="#">a3</a>
+			<a href="#">a4</a>
+			<a href="#">a5</a>
+		</div>
+	</body>
+	<script typet="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
+
+	<script>
+		var arr = [1, 2, 3]
+		var nodeList = document.getElementsByTagName('p')
+		var $p = $('p')
+		//要对这三个变量进行遍历，需要写三个遍历方法
+
+		//第一
+		arr.forEach(function(item) {
+			console.log(item)
+		})
+		//第二
+		var i, length = nodeList.length
+		for(i = 0; i < length; i++) {
+			console.log(nodeList[i])
+		}
+
+		//第三
+		$p.each(function(key, p) {
+			console.log(key, p)
+		})
+
+		var arr = [1, 2, 3]
+		var nodeList = document.getElementsByTagName('a')
+		var $a = $('a')
+
+		function each(data) {
+			var $data = $(data)//暂时不理解没关系，只需要知道这个东西是来自jquery的，继承了jquery的each方法
+			//生成迭代器
+			$data.each(function(key, val) {
+				console.log(key, val)
+			})
+		}
+		each(arr)
+		each(nodeList)
+		each($a);
+	</script>
+
+</html>

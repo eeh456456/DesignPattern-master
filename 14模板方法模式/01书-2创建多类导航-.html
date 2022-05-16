@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<style>
+		#content{
+			width: 400px;
+			height: 400px;
+		}
+	</style>
+	<body>
+		示例：创建三类导航，第一类是基础的，第二 类是多了消息提醒功能，第三类多了后面显示网址功能。<br> 我们也可以用模板方法模式实现，此时抽象出来的基本类就是我们这里所说的最简单的基础导航类。
+		<div id="content"></div>
+	</body>
+	<script>
+		//格式化字符串方法
+		function formateString(str, data) {
+			return str.replace(/\{#(\w+)#\}/g, function(match, key) {
+				return typeof data[key] === undefined ? '' : data[key]
+			})
+		}
+		//基础导航
+		var Nav = function(data) {
+			//基础导航样式模板
+			this.item = '<a href="{#href#}" title="{#title#}"> {#name#}</a>';
+			//创建字符串
+			this.html = '';
+			//格式化数据
+			for(var i = 0, len = data.length; i < len; i++) {
+				this.html += formateString(this.item, data[i]);
+				//返回字符串数据
+				return this.html;
+			}
+		}
+		/*
+		 对于消息提醒导航类， 我们只需对其额外添加消息提醒组件模板，
+			并用消息提醒组件模板对传入的网址数据进行装饰处理， 得到所需要的字符串，
+			再调用从基础导航类中继承的方法处理这些字符串,即可实现消息导航。
+		 */
+
+		//带有消息提醒信息导航
+		var NumNav = function(data) {
+			//消息提醒信息组件模板
+			var tpl = '<b> {#num#}</b>';
+			//装饰数据
+			for(var i = data.length - 1; i >= 0; i--) {
+				data[i].name += data[i].name + formateString(tpl, data[i]);
+				//继承基础导航类，并返回字符串
+				return Nav.call(this, data);
+			}
+		}
+		/*
+			同样的道理， 对于带有网址的导航类来说， 对传入的数据通过网址模板装饰， 
+			并得到装饰后的模板数据。 调用从基础导航类的构造 函数中继承的方法处理装饰后的模板数据， 即可实现网址导航。
+		*/
+		//带有链接地址的导航
+		var LinkNav = function(data) {
+			//链接地址模板
+			var tpl = '<span> {#ink#} </span>';
+			//装饰数据
+			for(var i = data.length - 1; i >= 0; i--) {
+				data[i].name += data[i].name + formateString(tpl, data[i]);
+				//继承基础导航类，并返回字符串
+				return Nav.call(this, data);
+			}
+		}
+		//测试代码
+		//获取导航容器
+		var nav = document.getElementById('content');
+		//添加内容
+		nav.innerHTML = NumNav([{
+			href: 'http: //www.baidu.com/',
+			title: '百度一下， 你就知道 ',
+			name: '百度',
+			num: '10'
+		}, {
+			href: 'http: //www.taobao.com',
+			title: '淘宝商城',
+			name: '淘宝',
+			num: '2'
+		}, {
+			href: "http: /www.qq.com/",
+			title: '腾讯首页',
+			name: '腾讯',
+			num: '3'
+		}])
+	</script>
+
+</html>

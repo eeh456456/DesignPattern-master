@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<button>按钮</button>
+		<p>p标签</p>
+	</body>
+	<script>
+		//函数绑定bind
+		function bind(fn, context) {
+			//闭包返回新函数
+			return function() {
+				//对fn装饰并返回
+				return fn.apply(context, arguments);
+			}
+		}
+
+		var btn = document.getElementsByTagName('button')[0];
+		var p = document.getElementsByTagName(p)[0];
+		//对demoFn改进，在控制台输出参数与this对象
+		function demoFn() {
+			console.log(arguments, this);
+		}
+		//未设置提供参与对象
+		var bindFn = bind(demoFn);
+		//绑定事件
+		btn.addEventListener('click', bindFn);
+		// chrome输出: [MouseEvent] Window
+		//提供btn元素参与对象
+		var bindFn = bind(demoFn, btn);
+		// chrome输出: [MouseEvent] <button>按钮</button>
+		//提供p元素参与对象
+		var bindFn = bind(demoFn, p);
+		// chrome输出: [MouseEvent] <p>hello</p>
+		//移除事件
+		btn.removeEventListener('click', bindFn);
+
+		/*不过在一些标准浏览器中如高版本的firefox、chrome、 Safari等中
+		 * 还是为我们提供 了原生bind方法，所以你还可以像下面这种方式使用原生bind方法。*/
+		//提供p元索参与对象
+		var bindFn = demoFn.bind(p);
+	
+	</script>
+
+</html>

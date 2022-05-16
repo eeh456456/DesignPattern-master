@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+	</body>
+	<script>
+		var FlyWeight = {
+			moveX: function(x) {
+				this.x = x;
+			},
+			moveY: function(y) {
+				this.y = y;
+			}
+		}
+		//其他任何角色都可以通过继承的方式来实现这些方法，比如让人继承移动方法。
+		var Player = function(x, y, c) {
+			this.x = x;
+			this.y = y;
+			this.color = c;
+		}
+		Player.prototype = FlyWeight;
+		Player.prototype.changec = function(c) {
+			this.color = c;
+		}
+		//让精灵继承移动的方法。
+		var spirit = function(x, y, r) {
+			this.x = x;
+			this.y = y;
+			this.r = r;
+		}
+		spirit.prototype = FlyWeight;
+		spirit.prototype.changeR = function(r) {
+			this.r = r;
+		}
+		//接下来创建一个人
+		var player1 = new Player(5, 6, 'red');
+		console.log(player1); // Player {x: 5, y: 6, color: 'red'}
+		//让这个人移动起来, 
+		player1.moveX(6);
+		player1.moveY(7);
+		player1.changec('pink');
+		console.log(player1); // Player {x: 6, y: 7, color: 'pink'}
+		//接下来创建一个精灵。
+		var spirit1 = new spirit(2, 3, 4);        
+		console.log(spirit1); // spinit{x: 2, y: 3,r: 4, moveX: function,moveY:function..}
+		//让精灵移动起来。
+		spirit1.moveX(3);
+		spirit1.moveY(4);
+		spirit1.changeR(5);//spirit {x: 2, y: 3, r: 4}
+		
+	</script>
+
+</html>

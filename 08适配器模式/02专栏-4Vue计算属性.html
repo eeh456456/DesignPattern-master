@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+	</body>
+	<template>
+		<div id="example">
+			<p>Original message: "{{ message }}"</p>
+			<!-- Hello -->
+			<p>Computed reversed message: "{{ reversedMessage }}"</p>
+			<!-- olleH -->
+		</div>
+	</template>
+
+	<script type='text/javascript'>
+		export default {
+			name: 'demo',
+			data() {
+				return {
+					message: 'Hello'
+				}
+			},
+			computed: {
+				reversedMessage: function() {
+					return this.message.split('').reverse().join('')
+				}
+			}
+		}
+	</script>
+
+</html>

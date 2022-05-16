@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+	</body>
+	<script>
+		//函数绑定bind
+		function bind(fn, context) {
+			//闭包返回新函数
+			return function() {
+				//对fn装饰并返回
+				return fn.apply(context, arguments);
+			}
+		}
+		//测试代码
+		var demoObj = {
+			title: '这是一个例子'
+		}
+		//测试方法
+		function demoFn() {
+			console.log(this.title);
+		}
+		//让demoObj参与demoFn的执行
+		var bindFn = bind(demoFn, demoObj);
+		demoFn(); // undefined 
+		bindFn(); //这是一个例子
+	</script>
+
+</html>

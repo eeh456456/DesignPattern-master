@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+	</head>
+
+	<body>
+		1 公司框架适配异类框架
+		<button id="mybutton">mybutton</button>
+	</body>
+	<script>
+		//定义框架
+		var A = A || {};
+		//通过ID获取元素
+		//		A.g = function(id) {
+		//			return document.getElementById(id);
+		//		}
+		//		//为元素绑定事件
+		//		A.on = function(id, type, fn) {
+		//			//如果传递参数是字符串则以id处理，否则以元素对象处理
+		//			var dom = typeof id === 'string' ? this.g(id) : id;
+		//			//标准DOM2级添加事件方式
+		//			if(dom.addEventListener) {
+		//				dom.addEventListener(type, fn, false);
+		//			}
+		//			//IE DOM2级添加事件方式
+		//			else if(dom.attachEvent) {
+		//				dom.attachEvent('on' + type, fn);
+		//			}
+		//			//简易添加事件方式
+		//			else {
+		//				dom['on' + type] = fn;
+		//			}
+		//		}
+		//
+
+		//接下来引入jquery替换A库
+		A.g = function(id) {
+			//通过jquery获取jquery对象，然后返回第一个成员
+			return $(id).get(0);
+		}
+		A.on = function(id, type, fn) {
+			//如果传递参数是字符串则以id处理，否则以元素对象处理
+			var dom = typeof id === 'string' ? $('#' + id) : $(id);
+			dom.on(type, fn);
+		}
+		//		//测试代码
+		//窗口加载完成事件
+		A.on(window, 'load', function() {
+			//按钮点击时间
+			A.on('mybutton', 'click', function() {
+				alert('已点击按钮')
+			})
+		})
+	</script>
+
+</html>

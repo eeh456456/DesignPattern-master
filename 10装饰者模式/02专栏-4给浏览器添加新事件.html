@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		之前介绍的添加装饰器函数的方式，经常被用来给原有浏览器或 DOM 绑定事件上绑定新的功能，<br>
+		比如在 onload 上增加新的事件，或在原来的事件绑定函数上增加新的功能，或者在原本的操作上增加用户行为埋点：
+	</body>
+	<script>
+		window.onload = function() {
+			console.log('原先的 onload 事件 ')
+		}
+
+		/* 发送埋点信息 */
+		function sendUserOperation() {
+			console.log('埋点：用户当前行为路径为 ...')
+		}
+
+		/* 将新的功能添加到 onload 事件上 */
+		window.onload = function() {
+			var originOnload = window.onload
+			return function() {
+				originOnload && originOnload()
+				sendUserOperation()
+			}
+		}()
+
+		// 输出： 原先的 onload 事件
+		// 输出： 埋点：用户当前行为路径为 ...
+	</script>
+
+</html>

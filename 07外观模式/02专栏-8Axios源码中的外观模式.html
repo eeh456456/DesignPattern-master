@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+	</body>
+	<script>
+		function getDefaultAdapter() {
+			// ...
+
+			if(typeof process !== 'undefined' && Object.prototype.toString.call(process) === '[object process]') {
+				// Nodejs 中使用 HTTP adapter
+				adapter = require('./adapters/http');
+			} else if(typeof XMLHttpRequest !== 'undefined') {
+				// 浏览器使用 XHR adapter
+				adapter = require('./adapters/xhr');
+			}
+
+			// ...
+		}
+	</script>
+
+</html>

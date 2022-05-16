@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+	</body>
+	<script>
+		//本地存储类原型方法
+		BaseLocalStorage.prototype = {
+			//操作状态
+			status: {
+				SUCCESS: 0, // 成功
+				FAILURE: 1, // 失败
+				OVERFLOW: 2, // 溢出
+				TIMEOUT: 3 // 过期
+			},
+			//保存本地存储链接
+			storage: localStorage || window.localStorage,
+			//获取本地存储数据库数据真实字段
+			getKey: function(key) {
+				return this.preId + key;
+			},
+			//添加(修改) 数据
+			set: function(key, value, callback, time) {
+				//省略操作
+			},
+			//获取数据
+			get: function(key, callback) {
+				//省略操作
+			},
+			//删除数据
+			remove: function(key, callback) {
+				//省略操作
+			}
+		}
+	</script>
+
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+	</body>
+	<script>
+		//对象A: 
+		var A = {};
+		//获取A属性b下面的c属性: 
+		var c = A.b.c; 
+		//(这种直接获取方式是不 允许的， 会报错)
+		//正确方式: 
+		var c = A && A.b && A.b.c;
+		//以下是一个实例：
+		//同步量
+		var A = {
+			//所有用户共有
+			common: {},
+			//客户端数据
+			client: {
+				user: {
+					username: '雨夜清河',
+					uid: '123'
+				}
+			},
+			//服务器端数据:
+			server: {}
+		};
+		//那么我们想获取客户端(client) 的用户名(userName) 数据可以通过一个同步变量迭代取值器来实现”。
+		//同步变量迭代取值器
+		AGetter = function(key) {
+			//如果不存在A则返回未定义
+			if(!A) {
+				return undefined;
+			}
+			var result = A; //获取同步变量A对象
+			key = key.split('.'); //解析属性层次序列
+			//迭代同步变量A对象属性
+			for(var i = 0, len = key.length; i < len; i++) {
+				//如果第i层属性存在对应的值则迭代该属性值
+				if(result[key[i]] !== undefined) {
+					result = result[key[i]];
+					//如果不存在则返回未定义
+				} else {
+					return undefined;
+				}
+				//返回获取的结果
+				return result;
+			}
+		}
+		//获取用户名数据
+		console.log(AGetter('client.user.username')); // 雨夜清河
+		// 获取本地语言数据
+		console.log(AGetter('server.lang.local')); //undefined
+		//有时在交互中会修改或者增加一些同步变量属性数据， 比如我 们缓存用户在主页中添加体育新闻模块这一动作数据， 我们可以通过 同步变量迭代赋值器来实现。
+		//同步变量迭代赋值器
+		ASetter = function(key, val) {
+			//如果不存在A则返回未定义
+			if(!A) {
+				return false;
+			}
+			var result = A;
+			//获取同步变量A对象
+			key = key.split('.'); //解析属性层次序列
+			//迭代同步变量A对象属性
+			for(var i = 0, len = key.length; i < len - 1; i++) {
+				//如果第i层属性对应的值不存在，则定义为对象
+				if(result[key[i]] !== undefined) {
+					result[key[i]] = {};
+				}
+				// 如果第i层属性对应的值不是对象(Object) 的一个实例，则抛出错误
+				if(!(result[key[i]] instanceof Object)) {
+					throw new Error('A.' + key.splice(0, i + 1).join('.') + 'is not Object');
+					return false;
+				}
+				//迭代该层属性值
+				result = result[key[i]];
+			}
+			//返回设置成功的属性值
+			return result[key[i]] = val;
+		}
+		//缓存添加体育新闻模块数据
+		console.log(ASetter('client.module.news.sports', 'on'));
+		//当然对于一些值类型属性的数据进行子属性赋值操作是不允许 的。
+		//为值类型数据添加属性是不允许的
+		console.log(ASetter('client.user.usermame.sports', 'on'));
+		//Uncaught Error: A.client.user.username is not object
+		//有时为了操作对象方便， 取值器与赋值器也通常直接赋值给对 象的基类。
+	</script>
+
+</html>

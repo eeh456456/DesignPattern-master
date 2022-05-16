@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<p>123</p>
+		<p>456</p>
+		<p>789</p>
+		<p>111</p>
+		<p>222</p>
+		<p>333</p>
+	</body>
+	<script>
+		//		function each(data) {
+		//			//生成遍历器
+		//			let iterator = data[Symbol.iterator]()
+		//			console.log(iterator.next())
+		//			console.log(iterator.next())
+		//			console.log(iterator.next())
+		//			console.log(iterator.next())
+		//			console.log(iterator.next())
+		//			console.log(iterator.next())
+		//			console.log(iterator.next())
+		//		}
+		function each(data) {
+			for(let item of data) {
+				console.log(item);
+			}
+		}
+		let arr = [1, 2, 3, 4]
+		let nodeList = document.getElementsByTagName('p')
+		let m = new Map()
+		m.set('a', 100)
+		m.set('b', 100)
+		each(arr)
+		each(nodeList)
+		each(m)
+	</script>
+
+</html>

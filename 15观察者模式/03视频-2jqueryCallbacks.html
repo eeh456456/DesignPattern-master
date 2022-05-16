@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script typet="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
+	</head>
+
+	<body>
+	</body>
+	<script>
+		var callbacks = $.Callbacks() //注意大小写
+
+		callbacks.add(function(info) {
+			console.log('fn1', info)
+		})
+		callbacks.add(function(info) {
+			console.log('fn2', info)
+		})
+		callbacks.add(function(info) {
+			console.log('fn3', info)
+		})
+		callbacks.fire('gogogo')
+		callbacks.fire('fire')
+	</script>
+
+</html>

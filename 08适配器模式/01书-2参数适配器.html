@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+
+	</body>
+	<script>
+//		如果方法需要传递多个参数， 例如：
+		function doSomeThing(name， title， age, color, size, prize) {
+
+		}
+		//那么我们要记住这些参数的顺序是很困难的，所以我们经常以一个参数对象的方式传入，例如：
+		/*
+		 * obj.name:name
+		 * obj.title:title
+		 * obj.age:age
+		 * obj.color:color
+		 * obj.size:size
+		 * obj.prize:prize
+		 * */
+		function doSomeThing(obj){}
+		//当调用它的时候又不知道传递的参数是否完整，例如有一些必传的参数没有传入，
+		//一些参数有默认值的等等，此时我们通常的做法是用适配器来适配传入的这个参数对象
+		function doSomeThing(obj){
+			var _adapter = {
+				name:'雨夜清河',
+				title:'设计模式',
+				age:24,
+				color:'pink',
+				size:100,
+				prize:50
+			};
+			for(var i in _adapter){
+				_adapter[i] = obj[i] || _adapter[i];
+			}
+			//或者extend(_adapter,obj) 注：此时可能会多添加属性
+			//do thing
+		}
+	</script>
+
+</html>

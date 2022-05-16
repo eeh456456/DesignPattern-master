@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		明星总是有个助理，或者说经纪人，如果某导演来请这个明星演出，或者某个品牌来找明星做广告，<br>
+		需要经纪人帮明星做接洽工作。而且经纪人也起到过滤的作用，毕竟明星也不是什么电影和广告都会接.
+	</body>
+	<script>
+		/* 明星 */
+		var SuperStar = {
+			name: '小鲜肉',
+			playAdvertisement: function(ad) {
+				console.log(ad)
+			}
+		}
+
+		/* 经纪人 */
+		var ProxyAssistant = {
+			name: '经纪人张某',
+			playAdvertisement: function(reward, ad) {
+				if(reward > 1000000) { // 如果报酬超过100w
+					console.log('没问题，我们小鲜鲜最喜欢拍广告了！')
+					SuperStar.playAdvertisement(ad)
+				} else
+					console.log('没空，滚！')
+			}
+		}
+
+		ProxyAssistant.playAdvertisement(10000, '纯蒸酸牛奶，味道纯纯，尽享纯蒸')
+		// 输出： 没空，滚
+	</script>
+
+</html>

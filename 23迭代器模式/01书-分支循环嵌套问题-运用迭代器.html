@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		关键是把switch判断转换成了对象的键名-方法。减少了判断的次数。
+	</body>
+	<script>
+		function dealImage(t, x, y, w, h, a) {
+			var canvasData = ctx.getImageData(x, y, w, h),
+				data = canvasData.data;
+			//状态模式封装算法
+			var Deal = function() {
+				var method = {
+					//默认类型——平均灰度特效
+					'default': function(i) {
+						return method['gray'](i);
+					},
+					//红色特效
+					'red': function(i) {
+						data[i + 1] = 0;
+						data[i + 2] = 0;
+						data[i + 3] = a;
+					},
+					//平均灰度特效
+					'gray': function() {
+						//将红、绿、色取平均值
+						data[i] = data[i + 1] = parselnt(data[i + 2] = (data[i] + data[i + 1] + data[i + 2]) / 3);
+						data[i + 3] = a;
+					}
+				};
+				//主函数，通过给定类型返回对应滤镜算法
+				return function(type) {
+					return method[type] || method['default'];
+				}
+			}();
+			//迭代器处理数据
+			function eachData(fn) {
+				for(var i = 0, len = data.length; i < len; i += 4) {
+					//处理一 组像素数据
+					fn(i);
+				}
+			}
+			//处理数据
+			eachData(Deal(t));
+			ctx.putImageData(canvasData, width + x, y);
+		}
+	</script>
+
+</html>

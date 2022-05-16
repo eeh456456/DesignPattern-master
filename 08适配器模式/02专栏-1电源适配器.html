@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		现实生活中我们会遇到形形色色的适配器，最常见的就是转接头了，<br> 比如不同规格电源接口的转接头、iPhone 手机的 3.5 毫米耳机插口转接头、<br> DP/miniDP/HDMI/DVI/VGA 等视频转接头、电脑、手机、ipad 的电源适配器，都是属于适配器的范畴。
+	</body>
+	<script>
+		var chinaPlug = {
+			type: '中国插头',
+			chinaInPlug() {
+				console.log('开始供电')
+			}
+		}
+
+		var japanPlug = {
+			type: '日本插头',
+			japanInPlug() {
+				console.log('开始供电')
+			}
+		}
+
+		/* 日本插头电源适配器 */
+		function japanPlugAdapter(plug) {
+			return {
+				chinaInPlug() {
+					return plug.japanInPlug()
+				}
+			}
+		}
+
+		japanPlugAdapter(japanPlug).chinaInPlug()
+		// 输出：开始供电
+	</script>
+
+</html>

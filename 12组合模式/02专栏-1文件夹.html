@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		大家电脑里的文件夹结构相比很熟悉了，文件夹下面可以有子文件夹，也可以有文件，<br>
+		子文件夹下面还可以有文件夹和文件，以此类推，共同组成了一个文件树，结构如下：<br>
+		Folder 1
+		├── Folder 2
+		│   ├── File 1.txt
+		│   ├── File 2.txt
+		│   └── File 3.txt
+		└── Folder 3
+		    ├── File 4.txt
+		    ├── File 5.txt
+		    └── File 6.txt
+		文件夹是树形结构的容器节点，容器节点可以继续包含其他容器节点，像树枝上还可以有其他树枝一样；<br>
+		也可以包含文件，不再增加新的层级，就像树的叶子一样处于末端，因此被称为叶节点。<br>
+		本文中，叶节点又称为叶对象，容器节点因为可以包含容器节点和非容器节点，又称为组合对象。
+	</body>
+	<script>
+		/* 创建文件夹 */
+		var createFolder = function(name) {
+			return {
+				name: name,
+				_children: [],
+
+				/* 在文件夹下增加文件或文件夹 */
+				add(fileOrFolder) {
+					this._children.push(fileOrFolder)
+				},
+
+				/* 扫描方法 */
+				scan(cb) {
+					this._children.forEach(function(child) {
+						child.scan(cb)
+					})
+				}
+			}
+		}
+
+		/* 创建文件 */
+		var createFile = function(name, size) {
+			return {
+				name: name,
+				size: size,
+
+				/* 在文件下增加文件，应报错 */
+				add() {
+					throw new Error('文件下面不能再添加文件')
+				},
+
+				/* 执行扫描方法 */
+				scan(cb) {
+					cb(this)
+				}
+			}
+		}
+
+		var foldMovies = createFolder('电影')
+
+		// 创建子文件夹，并放入根文件夹
+		var foldMarvelMovies = createFolder('漫威英雄电影')
+		foldMovies.add(foldMarvelMovies)
+
+		var foldDCMovies = createFolder('DC英雄电影')
+		foldMovies.add(foldDCMovies)
+
+		// 为两个子文件夹分别添加电影
+		foldMarvelMovies.add(createFile('钢铁侠.mp4', 1.9))
+		foldMarvelMovies.add(createFile('蜘蛛侠.mp4', 2.1))
+		foldMarvelMovies.add(createFile('金刚狼.mp4', 2.3))
+		foldMarvelMovies.add(createFile('黑寡妇.mp4', 1.9))
+		foldMarvelMovies.add(createFile('美国队长.mp4', 1.4))
+
+		foldDCMovies.add(createFile('蝙蝠侠.mp4', 2.4))
+		foldDCMovies.add(createFile('超人.mp4', 1.6))
+
+		console.log('size 大于2G的文件有：')
+		foldMovies.scan(function(item) {
+			if(item.size > 2) {
+				console.log('name:' + item.name + ' size:' + item.size + 'GB')
+			}
+		})
+
+		// size 大于2G的文件有：
+		// name:蜘蛛侠.mp4 size:2.1GB
+		// name:金刚狼.mp4 size:2.3GB
+		// name:蝙蝠侠.mp4 size:2.4GB
+	</script>
+
+</html>

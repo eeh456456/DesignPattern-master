@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>01书-2</title>
+	</head>
+
+	<body>
+		一个对象有时也可代替许多类
+	</body>
+	<script>
+		//工厂模式
+		function createBook(name, time, type) {
+			//创建翌哥对象，并对对象拓展属性和方法
+			var o = new Object();
+			o.name = name;
+			o.time = time;
+			o.type = type;
+			o.getName = function() {
+				console.log(this.name);
+			}
+			//将对象返回
+			return o;
+		}
+		
+		var book1 = createBook('js book', 2014, 'js');
+		var book2 = createBook('css book', 2013, 'css');
+
+		book1.getName();
+		book2.getName();
+	</script>
+
+</html>

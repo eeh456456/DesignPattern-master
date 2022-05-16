@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		我们首先创建学生类， 学生是被提问对象， 因此他们是订阅者。 同时学生也有对问题的思考结果， 以及回答问题的动作。 老师在课堂上提问学生
+	</body>
+	<script>
+		//2 实现3个方法
+		var Observer = (function() {
+			//防止消息队列暴漏而被篡改故将消息容器作为静态私有变量保存
+			var __messages = {};
+			return {
+				//注册信息接口
+				regist: function(type, fn) {
+					//如果此消息不存在则应该创建一个该消息类型
+					if(typeof __messages[type] === 'undefined') {
+						//将动作推入到该消息对应的动作执行队列中
+						__messages[type] = [fn];
+						//如果此消息存在
+					} else {
+						//将动作方法推入该消息对应的动作执行序列中
+						__messages[type].push(fn);
+					}
+				},
+				//发布信息接口
+				fire: function(type, args) {
+					//如果该消息设有被注册，则返回
+					if(!__messages[type]) {
+						return;
+					} //定义消息信息
+					var events = {
+							type: type, //消息类型
+							args: args || {} //消息携带数据
+						},
+						i = 0, //消息动作循环变量
+						len = __messages[type].length; // 消息动作长度
+					//遍历消息动作
+					for(; i < len; i++) {
+						//依次执行注册的消息对应的动作序列
+						__messages[type][i].call(this, events); //call是用来重新定义this对象
+					}
+				},
+				//移除信息接口
+				remove: function(type, fn) {
+					//如果消息动作队列存在
+					if(__messages[type] instanceof Array) {
+						//从最后一个消息动作遍历
+						var i = __messages[type].length - 1;
+						for(; i >= 0; i--) {
+							//如果存在该动作则在消息动作序列中移除相应动作
+							__messages[type][i] === fn && __messages[type].splice(i, 1);
+						}
+					}
+				}
+			}
+		})();
+
+		//学生类
+		var Student = function(result) {
+			var that = this;
+			//学生回答结果
+			that.result = result;
+			//学生回答问题动作
+			that.say = function() {
+				console.log(that.result);
+			}
+		};
+
+		//当然在课堂上学生是可以回答问题的， 所以他们有回答问题的方法answer
+		//回答问题方法
+		Student.prototype.answer = function(question) {
+			//注册参数问题
+			Observer.regist(question, this.say);
+		}
+		//还有一类学生在课堂上呼呼地睡着了， 此时他们就不能回答问题了， 所以呢， 他们也要有一个睡觉方法sleep。
+		//学生呼呼睡觉，此时不能回答问题
+		Student.prototype.sleep = function(question) {
+			console.log(this.result + ' ' + question + ' 已被注销');
+			//取消对老师问题的监听
+			Observer.remove(question, this.say)
+		}
+		//接下来创建教师类， 对于教师， 他会提问学生， 所以他是一个观察者。 他需要有一个提问问题的方法。
+
+		//教师类
+		var Teacher = function() {};
+		//教师提问问题的方法
+		Teacher.prototype.ask = function(question) {
+			console.log('问题是: ' + question);
+			//发布提问消息
+			Observer.fire(question)
+		}
+
+		//学生类与教师类创建完成了， 接下来我们模拟创建出三位听课的学生吧。
+		var student1 = new Student('学生1回答问题'),
+			student2 = new Student('学生2回答问题'),
+			student3 = new Student('学生3回答问题');
+
+		//然后这三位同学订阅(监听) 了老师提问的两个问题。”
+
+		student1.answer('什么是设计模式');
+		student1.answer('简述观察者模式');
+		student2.answer('什么是设计模式');
+		student3.answer('什么是设计模式');
+		student3.answer('简述观察者模式');
+		
+		student3.sleep('简述观察者模式');//后来第三位同学睡着了，所以对于订阅的第二 个问题'简述观察者模式'消息就注销了。
+		//接下来创建一个教师类。
+		var teacher = new Teacher();
+		//提问两个问题。
+		teacher.ask('什么是设计模式');
+		teacher.ask('简述观察者模式');
+		//好了， 我们观察一下浏览器中输出的结果吧。”
+		//学生3 回答问题 简述观察者模式 己被注销   
+		//问题是:什么是设计模式
+		//学生1回答问题
+		//学生2回答问题
+		//学生3回答问题
+		//问题是:简述观察者模式
+		//学生1回答问题
+	</script>
+
+</html>

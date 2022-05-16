@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>01书-1</title>
+	</head>
+
+	<body>
+		举例：体育商品店卖体育器材，里面有很多体育用品，及相关介绍。当你来到体育用品店买一个篮球及获取相关介绍时，你只需要问售货员，他就会帮你找到你要的东西。
+	</body>
+	<script>
+		//篮球基类
+		var Basketball = function() {
+			this.iotro = '篮球流行于美国';
+		}
+		Basketball.prototype = {
+			getNumber: function() {
+				console.log('每个队伍需要5名队员');
+			},
+			getBallSize: function() {
+				console.log('输出篮球体积XX');
+			}
+		}
+		//足球基类
+		var Football = function() {
+			this.intro = '足球流行于世界'
+		}
+		Football.prototype = {
+			getNumber: function() {
+				console.log('每个队伍需要5名队员')
+			},
+			getBallSize: function() {
+				console.log('输出足球体积XX')
+			}
+		}
+		//网球基类
+		var Tennis = function() {
+			this.intro = '网球赛介绍'
+		}
+		Tennis.prototype = {
+			getNumber: function() {
+				console.log('每个队伍需要1名队员')
+			},
+			getBallSize: function() {
+				console.log('输出网球体积XX')
+			}
+		}
+		//运动工厂
+		var SportsFactory = function(name) {
+			switch(name) {
+				case 'NBA':
+					return new Basketball();
+				case 'wordCup':
+					return new Football();
+				case 'FrenchOpen':
+					return new Tennis();
+			}
+		}
+		//为世界杯创建翌哥足球，只需要记住运动工厂SportsFactory，调用并创建
+		var football = SportsFactory('wordCup');
+		console.log(football);
+		console.log(football.intro);
+		football.getNumber();
+	</script>
+
+</html>

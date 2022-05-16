@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+	</body>
+	<script>
+		var A = {
+			event: {}
+		}
+
+		//事件绑定方法
+		A.event.on = function(dom, type, fn) {
+			// W3C标准事件绑定
+			if(dom.addEventListener) {
+				dom.addEventListener(type, fn, false);
+				// ie事件绑定
+			} else if(dom.attachEvent) {
+				dom.attachEvent('on' + type, fn);
+				// DOM0级事件绑定
+			} else {
+				dom['on' + type] = fn;
+			}
+		}
+
+		//参与者模式：
+		A.event.on = function(dom, type, fn, data) {
+			// W3C标准事件绑定
+			if(dom.addEventListener) {
+				dom.addEventListener(type, function(e) {
+					//在dom环境中调用fn,并传入事件对象与data数据参数
+					fn.call(dom, e, data);
+				}, false);
+			}
+			// IE事件绑定
+			//......
+		}
+	</script>
+
+</html>

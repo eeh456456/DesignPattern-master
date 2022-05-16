@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		Axios 是比较热门的网络请求库，在浏览器中使用的时候，Axios 的用来发送请求的 adapter，<br>
+		 本质上是封装浏览器提供的 API XMLHttpRequest，我们可以看看源码中是如何封装这个 API 的，为了方便观看，进行了一些省略：
+	</body>
+	<script>
+		module.exports = function xhrAdapter(config) {
+			return new Promise(function dispatchXhrRequest(resolve, reject) {
+				var requestData = config.data
+				var requestHeaders = config.headers
+
+				var request = new XMLHttpRequest()
+
+				// 初始化一个请求
+				request.open(config.method.toUpperCase(),
+					buildURL(config.url, config.params, config.paramsSerializer), true)
+
+				// 设置最大超时时间
+				request.timeout = config.timeout
+
+				// readyState 属性发生变化时的回调
+				request.onreadystatechange = function handleLoad() { ...
+				}
+
+				// 浏览器请求退出时的回调
+				request.onabort = function handleAbort() { ...
+				}
+
+				// 当请求报错时的回调
+				request.onerror = function handleError() { ...
+				}
+
+				// 当请求超时调用的回调
+				request.ontimeout = function handleTimeout() { ...
+				}
+
+				// 设置HTTP请求头的值
+				if('setRequestHeader' in request) {
+					request.setRequestHeader(key, val)
+				}
+
+				// 跨域的请求是否应该使用证书
+				if(config.withCredentials) {
+					request.withCredentials = true
+				}
+
+				// 响应类型
+				if(config.responseType) {
+					request.responseType = config.responseType
+				}
+
+				// 发送请求
+				request.send(requestData)
+			})
+		}
+	</script>
+
+</html>

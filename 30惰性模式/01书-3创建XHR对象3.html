@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+	</body>
+	<script>
+		//第二种加载时不损失性能， 但是第一次调用时损失性能
+		function createXHR() {
+			if(typeof XMLHttpRequest != "undefined") {
+				createXHR = function() {
+					return new XMLHttpRequest();
+				};
+			} else if(typeof ActiveXObject != "undefined") {
+				createXHR = function() {
+					//省略代码
+				};
+			} else {
+				createXHR = function() {
+					throw new Error("No XHR object available.");
+				};
+			}
+			return createXHR();
+		}
+	</script>
+
+</html>

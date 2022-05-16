@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+	</body>
+	<script>
+		const router = new VueRouter({ ...
+		})
+
+		router.beforeEach((to, from, next) => {
+			// ...
+			console.log(' beforeRouteEnter ! ')
+			next()
+		})
+	</script>
+
+</html>

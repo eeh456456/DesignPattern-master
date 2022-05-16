@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		享元模式(Flyweight): <br> 运用共享技术有效地支持大量的细粒度 的对象，避免对象间拥有相同内容造成多余的开销。<br> 点击下一页隐藏当前页面的新闻，然后显示后面的5个。
+		<br> 以下是未运用享元模式的代码：
+		<div class="container"></div>
+		<button id="next_page">下一页</button>
+	</body>
+	<script>
+		var dom = null, //缓存创建的新闻标题元素
+			paper = 0, //当前页数
+			num = 5, //每页显示新闻数目
+			i = 0, //创建新闻元素时保存变量
+			len = article.length; //新闻数据长度
+		for(; i < len; i++) {
+			dom = document.createElement('div"); //创建包装新闻标题元素
+				dom.innerHTML = article[i]; //向元素中添加新闻标题
+				if(i >= num) { //默认显示第一页
+					dom.style.display = 'none'; //超出第一页新闻隐藏
+				}
+				document.getElementByld('container').appendchild(dom); //添加到页面中
+			}
+			//下一页绑定事件
+			document.getElementByld('next_page').onclick = function() {
+				var div = document.getElementByld('container').getElementsByTagName('div'),
+					//获取所有新闻标题包装元素
+					j = k = n = 0; //j,k循环变量,n当前页显示的第一个新闻序号
+					n = ++paper % Math.ceil(len/num) * num;
+					//获取当前页显示的第一个 新闻序号
+				for(; j < len;; j++) {
+					div[j].style.display = 'none';//隐藏所有新闻
+				}
+				for(; k < 5; k++) {
+					if(div[n + k])
+						div[n + k].style.display = "block'; //显示当前页新闻
+				}
+			}
+			/*
+			思路是， 页面加载后， 异步请求新闻数据，
+			然后创建所有条新闻并插入页面中， 需要显示哪一页就将对应页的新闻显示，
+			其他的新闻隐藏....
+			*/
+	</script>
+
+</html>

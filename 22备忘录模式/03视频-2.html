@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		注：本文件无法识别impot语法，请在项目中运用本代码
+	</body>
+	<script>
+		// index.js
+		import Editor from 'm1.js'
+
+		const editor = new Editor()
+
+		editor.setContent('111')
+		editor.setContent('222')
+		editor.save()
+		editor.setContent('333')
+		editor.save()
+		editor.setContent('444')
+
+		console.log(editor.getContent()) // 444
+		console.log(editor.restore(2)) // undefined
+		console.log(editor.restore(1)) // 333
+		console.log(editor.restore(0)) // 222
+	</script>
+
+</html>

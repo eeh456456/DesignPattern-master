@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script typet="text/javascript" src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+		<style>
+			#div1 {
+				width: 200px;
+				height: 200px;
+				border: 1px solid #abc123;
+			}
+			
+			.red {
+				background-color: red;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="div1"></div>
+	</body>
+	<script>
+		$('#div1').click(function() { // this 符合期望
+			$(this).addClass('red')
+		})
+
+		/*		$('#div1').click(function() {
+					setTimeout(function() { // this不符合期望
+						$(this).addClass('red')
+					}, 1000);
+
+				});
+		*/
+		//可以用如下方式解决
+		/*$('#div1').click(function() {
+			var _this = this
+			setTimeout(function() { //_this 符合期望
+					$(_this).addClass('red')
+				},
+				1000);
+		});*/
+		//推荐用proxy解决，这样就少定义一个变量 
+		$('#div1').click(function() {
+			setTimeout($.proxy(function() { // this 符合期望
+				$(this).addClass('red')
+			}, this), 1000);
+		});
+	</script>
+
+</html>

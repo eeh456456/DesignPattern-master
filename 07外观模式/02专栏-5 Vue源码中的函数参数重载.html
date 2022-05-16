@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+	</body>
+	<script>
+		export function createElement(
+			context,
+			tag,
+			data,
+			children,
+			normalizationType,
+			alwaysNormalize
+		) {
+			if(Array.isArray(data) || isPrimitive(data)) { // 参数的重载
+				normalizationType = children
+				children = data
+				data = undefined
+			}
+
+			// ...
+		}
+	</script>
+
+</html>

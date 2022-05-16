@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			span {
+				display: inline-block;
+				width: 100px;
+				height: 100px;
+			}
+		</style>
+	</head>
+
+	<body>
+		桥接模式(Bridge): 在系统沿着多个维度变化的同时，又不增加其复杂度并己达到解耦。<br> 
+		实现面包屑导航栏的划入特效<br>
+
+		<span>111
+				<strong>strong111</strong>
+		</span><br>
+
+		<span style="background-color: gray;">222<strong>strong222</strong>
+		</span><br>
+	</body>
+	<script>
+		//抽象
+		function changecolor(dom, color, bg) {
+			//设置元素的字体颜色
+			dom.style.color = color;
+			//设置元素的背景颜色
+			dom.style.background = bg;
+		}
+
+		var spans = document.getElementsByTagName('span');
+		spans[0].onmouseover = function() {
+			changecolor(this, 'white', 'black');
+		}
+		spans[0].onmouseout = function() {
+			changecolor(this, 'black', 'white');
+		}
+
+		spans[1].onmouseover = function() {
+			changecolor(this.getElementsByTagName('strong')[0], 'white', 'black');
+		}
+		spans[1].onmouseout = function() {
+			changecolor(this.getElementsByTagName('strong')[0], 'black', 'white');
+		}
+	</script>
+
+</html>

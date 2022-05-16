@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+	</body>
+	<script>
+		//多维变量类
+		//运动单元
+		function speed(x, y) {
+			this.x = x;
+			this.y = y;
+		}
+		speed.prototype.run = function() {
+			console.log('运动起来');
+		}
+		//着色单元
+		function color(cl) {
+			this.color = cl;
+		}
+		color.prototype.draw = function() {
+			console.log('绘制色彩');
+		}
+		//变形单元
+		function shape(sp) {
+			this.shape = sp;
+		}
+		shape.prototype.change = function() {
+			console.log('改变形状');
+		}
+		//说话单元
+		function speek(wd) {
+			this.word = wd;
+		}
+		speek.prototype.say = function() {
+			console.log('说话');
+		}
+
+		//于是我们想创建一个球类， 并且它可以运动， 可以着色。”
+		function Ball(x, y, c) {
+			//实现运动单元
+			this.speed = new speed(x, y);
+			//实现着色单元
+			this.color = new color(c);
+		}
+		Ball.prototype.init = function() {
+			//实现运动
+			this.speed.run();
+			//实现着色
+			this.color.draw();
+		}
+		//同样我们想创建一个 人物类， 他可以运动以及说话。”
+		function People(x, y, f) {
+			this.speed = new speed(x, y);
+			this.font = new speek(f);
+		}
+		People.prototype.init = function() {
+			this.speed.run();
+			this.font.say();
+		}
+		//当然我们也可以创建一 个精灵类， 让它可以运动可以着色可以改变形状。
+		function spirite(x, y, c, s) {
+			this.speed = new speed(x, y);
+			this.color = new color(c);
+			this.shape = new shape(s);
+		}
+		spirite.prototype.init = function() {
+			this.speed.run();
+			this.color.draw();
+			this.shape.change();
+		}
+		//当我们想实现一个人物时， 我们直接实例化一个人物对象， 这样他就可以有用运动和说话的动作了。”
+		var p = new People(10, 12, 16);
+		p.init();//运动起来，//说话
+	</script>
+
+</html>

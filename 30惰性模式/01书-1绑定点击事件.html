@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			html,
+			body {
+				height: 100%;
+				width: 100%;
+				margin: 0;
+				padding: 0;
+			}
+		</style>
+	</head>
+
+	<body>
+	</body>
+	<script>
+		//单体模式定义命名空间
+		var A = {};
+		/*
+		//添加绑定事件方法on
+		A.on = function(dom, type, fn) {
+			if(dom.addEventListener) {
+				dom.addEventListener(type, fn, false);
+			} else if(dom.attachEvent) {
+				dom.attachEvent('on' + type, fn);
+			} else {
+				dom['on' + type] = fn;
+			}
+		}
+
+		//添加绑定事件方法on,加载即执行
+		A.on = function(dom, type, fn) {
+			//如果支持addEventListener方法
+			if(document.addEventListener) {
+				//返回新定义方法
+				return function(dom, type, fn) {
+					dom.addEventListener(type, fn, false);
+				}
+				//如果支持attachEvent方法(IE)
+			} else if(document.attachEvent) {
+				//返回新定义方法
+				return function(dom, type, fn) {
+					dom.attachEvent('on' + type, fn);
+				}
+				//定义on方法
+			} else {
+				//返回新定义方法
+				return function(dom, type, fn) {
+					dom['on' + type] = fn;
+				}
+			}
+		}();
+		*/
+		//惰性执行
+		//添加绑定事件方法on
+		A.on = function(dom, type, fn) {
+			//如果支持addEventL istener方法
+			if(dom.addEventListener) {
+				//			if(typeof(eval(dom.addEventListener))=="function") {
+				//显示重定义on方法
+				A.on = function(dom, type, fn) {
+					dom.addEventListener(type, fn, false);
+				}
+				//如果支持attachEvent方法(IE)
+			} else if(typeof(eval(dom.attachEvent)) == "function") {
+				//显示重定义on方法
+				A.on = function(dom, type, fn) {
+					dom.attachEvent('on' + type, fn);
+				}
+				//如果支持DOM0级事件绑定
+			} else {
+				//显示重定义on方法
+				A.on = function(dom, type, fn) {
+					dom['on' + type] = fn;
+				}
+			}
+			//执行重定义on方法
+			A.on(dom, type, fn);
+		};
+
+		/*第二种实现方式与第-种实现方式的不同之处在于，
+		首先，内部对元素dom执行能力检测并显示重写，
+		其次，原始函数在函数的最末尾重新执行一遍来绑定事件。
+		不过在文件加载后A.on方法还没能重新被定义。
+		所以我们还需等到某一元素绑定事件时， A.on才 能被重定义。*/
+		A.on(document.body, 'click', function() {
+			alert(11);
+		})
+	</script>
+
+</html>

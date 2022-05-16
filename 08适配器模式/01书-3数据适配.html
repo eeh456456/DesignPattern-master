@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+	</body>
+	<script>
+		//比如有这样一个数组：
+		var arr= ['javaScript','book','前端编程语言','0801']
+		//我们发现数组中每个成员代表的意义不同，所以这种数据结构语义不好，
+		//我们通常将其适配成对象形式，比如下面这种对象数据结构
+		var obj ={
+			name:'',
+			type:'',
+			title:'',
+			time:''
+		}
+		//像下面这样适配
+		function arrToObjAdapter(arr){
+			return {
+				name:arr[0],
+				type:arr[1],
+				title:arr[2],
+				data:arr[3]
+			}
+		}
+		
+		var adapterData = arrToObjAdapter(arr);
+		console.log(adapterData);
+	</script>
+</html>

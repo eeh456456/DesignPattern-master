@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+	</body>
+	<script>
+		//函数柯里化
+		function curry(fn) {
+			//缓存数组slice方法Array.prototype.slice
+			var slice = [].slice
+			//从第二个参数开始截取参数
+			var args = slice.call(arguments, 1);
+			//闭包返回新函数
+			return function() {
+				//将参数(类数组)转化为数组
+				var addArgs = slice.call(arguments),
+					//拼接参数
+					allArgs = args.concat(addArgs);
+				//返回新函数
+				return fn.apply(null, allArgs);
+			}
+		}
+
+		//加法器
+		function add(num1, num2) {
+			return num1 + num2;
+		}
+		//加5加法器
+		function add5(num) {
+			return add(5, num);
+		}
+		//测试add加法器
+		console.log(add(1, 2));
+		//3 
+		//测试加5加法器
+		console.log(add5(6)); //11
+		//函数柯里化创建加5加法器
+		var add5 = curry(add, 5);
+		console.log(add5(7)); // 12
+		// 7+8
+		var add7and8 = curry(add, 7, 8);
+		console.log(add7and8()); // 15
+	</script>
+
+</html>

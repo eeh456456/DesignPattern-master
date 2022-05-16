@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			#btn {
+				width: 200px;
+				height: 200px;
+				background-color: deepskyblue;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="btn"></div>
+		<p id="test"></p>
+	</body>
+	<script>
+		//未运用访问者模式，不兼容低版本的IE
+		/*
+		var bindEvent = function(dom, type, fn) {
+			if(dom.addEventListener) {
+				dom.addEventListener(type, fn, false);
+			} else if(dom.attachEvent) {
+				dom.attachEvent('on' + type, fn);
+			} else {
+				dom['on' + type] = fn;
+			}
+		}
+		var demo = document.getElementById('demo');
+		bindEvent(demo, 'click', function() {
+			this.style.background = 'red'; //低版本里面，这个this是指向window的
+		});
+		*/
+
+		function bindIEEvent(dom, type, fn, data) {
+			var data = data || {};
+			console.log(dom)
+			if(dom.attachEvent) {
+				dom.attachEvent('on' + type, function(e) { //attachEvent 是很旧的非标准方法。请使用 addEventListener。
+					fn.call(dom, e, data); //写了call以后，在回调函数中访问的this就可以指向我们的事件原元素对象了
+				});
+			} else {
+				dom.addEventListener(type, function(e) { //attachEvent 是很旧的非标准方法。请使用 addEventListener。
+					fn.call(dom, e, data); //写了call以后，在回调函数中访问的this就可以指向我们的事件原元素对象了
+				});
+			}
+		};
+
+		function $(id) {
+			return document.getElementById(id);
+		};
+		bindIEEvent($('btn'), 'click', function(e, d) {
+			$('test').innerHTML = e.type + d.text + this.tagName;
+		}, {
+			text: 'test demo'
+		});
+		//小白点击了一下id为btn的按钮元素,发现p元素增加了一行内容:
+		//click
+		//test demo
+		//BUTTON
+	</script>
+
+</html>

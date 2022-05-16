@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+	</body>
+	<script>
+		/* 毛坯房 - 目标对象 */
+		var originHouse = {
+			getDesc() {
+				console.log('毛坯房 ')
+			}
+		}
+
+		/* 搬入家具 - 装饰者 */
+		function furniture() {
+			console.log('搬入家具 ')
+		}
+
+		/* 墙壁刷漆 - 装饰者 */
+		function painting() {
+			console.log('墙壁刷漆 ')
+		}
+
+		/* 添加装饰 - 搬入家具 */
+		originHouse.getDesc = function() {
+			var getDesc = originHouse.getDesc
+			return function() {
+				getDesc()
+				furniture()
+			}
+		}()
+
+		/* 添加装饰 - 墙壁刷漆 */
+		originHouse.getDesc = function() {
+			var getDesc = originHouse.getDesc
+			return function() {
+				getDesc()
+				painting()
+			}
+		}()
+
+		originHouse.getDesc()
+		// 输出： 毛坯房  搬入家具  墙壁刷漆
+	</script>
+
+</html>

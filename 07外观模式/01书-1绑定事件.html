@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		//我想说：这不就是一个平平无奇的适配IE浏览器的绑定事件写法么...跟外观模式有啥联系？
+		<button id="myinput">按钮</button>
+	</body>
+	<script>
+		/*
+												document.onclick = function(e) {
+													e.preventDefault();
+													if(e.target !== document.getElementById('myinput') {
+															hidePageAlert();
+														}
+													}
+												}
+
+												function hidePageAlert() {
+													//隐藏提示框
+												}
+												/*
+												/*
+												首先， 你为document绑定了onclick事件， 但是你知道onclick是DOM0级事件，
+												也就是说这种方式绑定的事件相当于为元素绑定一个事件方法，
+												所以如果我们团队中有人再次通过这种方式为document绑定click事件时，
+												就相当于重复定义了一个方法， 会将你定义的click事件方法覆盖， 如下列程序:
+												*/
+		document.onclick = function() {
+			//其他开发人员重新为document绑定事件会覆盖前面定义的DOM0级click事件
+		}
+		/*
+		所以你这种方式是很危险的。 因此你应该用DOM2级事件处理程序提供的方法addEventListener来实现，
+		然而你知道老版本的IE浏览器(低于9) 是不支持这个方法的， 所以你要用attachEvent, 
+		当然如果有不支持DOM2级事件处理程序的浏览器， 你只能用onclick事件方法绑定事件。*/
+		//外观模式实现
+		function addEvent(dom, type, fn) {
+			//对于支持DOM2级事件处理程序addEventListener方法的浏览器
+			if(dom.addEventListener) {
+				dom.addEventListener(type, fn, false);
+				//对于不支持addEventListener方法但支持attachEvent方法的浏览器
+			} else if(dom.attachEvent) {
+				dom.attachEvent('on' + type, fn);
+				//对于不支持addEventListener方法也不支持attachEvent方法，但支持on + 事件名的浏览器
+			} else {
+				dom['on' + type] = fn;
+			}
+		}
+
+		//测试代码
+		var myInput = document.getElementById('myinput');
+		addEvent(myInput, 'click', function() {
+			console.log('绑定第一个事件')
+		})
+
+		addEvent(myInput, 'click', function() {
+			console.log('绑定第二个事件')
+		})
+
+		addEvent(myInput, 'click', function() {
+			console.log('绑定第三个事件')
+		})
+	</script>
+
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+	</body>
+	<script>
+		
+		//第一种 字面量方式
+		var o1={name:'o1'}
+		var o2 = new Object({name:'02'})
+		//第二种new，使用显式构造函数创建对象
+		var M =function(name){this.name=name}
+		var o3 = new M('o3')
+		M.prototype.constructor
+		//第三种 Object.create
+		var p ={name:'p'}
+		var o4 = Object.create(p)
+		
+	</script>
+</html>

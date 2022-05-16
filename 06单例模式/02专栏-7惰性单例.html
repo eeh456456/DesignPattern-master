@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		有时候一个实例化过程比较耗费性能的类，但是却一直用不到，如果一开始就对这个类进行实例化就显得有些浪费，那么这时我们就可以使用惰性创建，
+		<br>即延迟创建该类的单例。之前的例子都属于惰性单例，实例的创建都是 new 的时候才进行。
+		<br>惰性单例又被成为懒汉式，相对应的概念是饿汉式： 懒汉式单例是在使用时才实例化 饿汉式是当程序启动时或单例模式类一加载的时候就被创建。
+	</body>
+	<script>
+		class FuncClass {
+			constructor() {
+				this.bar = 'bar'
+			}
+		}
+
+		// 饿汉式
+		const HungrySingleton = (function() {
+			const _instance = new FuncClass()
+
+			return function() {
+				return _instance
+			}
+		})()
+
+		// 懒汉式
+		const LazySingleton = (function() {
+			let _instance = null
+
+			return function() {
+				return _instance || (_instance = new FuncClass())
+			}
+		})()
+
+		const visitor1 = new HungrySingleton()
+		const visitor2 = new HungrySingleton()
+		const visitor3 = new LazySingleton()
+		const visitor4 = new LazySingleton()
+
+		console.log(visitor1 === visitor2) // true
+		console.log(visitor3 === visitor4) // true
+	</script>
+
+</html>

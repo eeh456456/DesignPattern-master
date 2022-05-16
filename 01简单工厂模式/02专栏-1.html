@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>01书-3</title>
+	</head>
+
+	<body>
+		今天你的老同学找你来玩，你决定下个馆子（因为不会做饭），于是你来到了小区门口的饭店，跟老板说，<br>
+		来一份鱼香肉丝，一份宫保鸡丁。等会儿菜就烧好端到你的面前，不用管菜烧出来的过程，你只要负责吃就行了。
+	</body>
+	<script>
+		/* 饭店方法 */
+		function restaurant(menu) {
+			switch(menu) {
+				case '鱼香肉丝':
+					return new YuXiangRouSi()
+				case '宫保鸡丁':
+					return new GongBaoJiDin()
+				default:
+					throw new Error('这个菜本店没有 -。-')
+			}
+		}
+
+		/* 鱼香肉丝类 */
+		function YuXiangRouSi() {
+			this.type = '鱼香肉丝'
+		}
+
+		YuXiangRouSi.prototype.eat = function() {
+			console.log(this.type + ' 真香~')
+		}
+
+		/* 宫保鸡丁类 */
+		function GongBaoJiDin() {
+			this.type = '宫保鸡丁'
+		}
+
+		GongBaoJiDin.prototype.eat = function() {
+			console.log(this.type + ' 让我想起了外婆做的菜~')
+		}
+
+		const dish1 = restaurant('鱼香肉丝')
+		dish1.eat() // 输出: 鱼香肉丝 真香~
+		const dish2 = restaurant('红烧排骨') // 输出: Error 这个菜本店没有 -。-
+	</script>
+</html>

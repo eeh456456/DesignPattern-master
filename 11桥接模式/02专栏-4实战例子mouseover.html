@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+	</body>
+	<script>
+		var btn = document.getElementById('btn')
+
+		btn.addEventListener('mouseover', function() {
+			btn.style.setProperty('color', 'blue')
+			btn.style.setProperty('background-color', 'green')
+			btn.style.setProperty('transform', 'scale(1.5)')
+		})
+
+		btn.addEventListener('mouseleave', function() {
+			btn.style.setProperty('color', 'black')
+			btn.style.setProperty('background-color', 'lightgray')
+			btn.style.setProperty('transform', 'scale(1)')
+		})
+
+		btn.addEventListener('mousedown', function() {
+			btn.style.setProperty('color', 'red')
+			btn.style.setProperty('background-color', 'purple')
+			btn.style.setProperty('transform', 'scale(.5)')
+		})
+
+		btn.addEventListener('mouseup', function() {
+			btn.style.setProperty('color', 'black')
+			btn.style.setProperty('background-color', 'lightgray')
+			btn.style.setProperty('transform', 'scale(1)')
+		})
+
+		/*
+		 接下来是应用桥接模式的代码
+		 * */
+
+		var btn = document.getElementById('btn')
+
+		/* 设置前景色和背景色 */
+		function setColor(element, color = 'black', bgc = 'lightgray') {
+			element.style.setProperty('color', color)
+			element.style.setProperty('background-color', bgc)
+		}
+
+		/* 设置尺寸 */
+		function setSize(element, size = '1') {
+			element.style.setProperty('transform', `scale(${ size })`)
+		}
+
+		btn.addEventListener('mouseover', function() {
+			setColor(btn, 'blue', 'green')
+			setSize(btn, '1.5')
+		})
+
+		btn.addEventListener('mouseleave', function() {
+			setColor(btn)
+			setSize(btn)
+		})
+
+		btn.addEventListener('mousedown', function() {
+			setColor(btn, 'red', 'purple')
+			setSize(btn, '.5')
+		})
+
+		btn.addEventListener('mouseup', function() {
+			setColor(btn)
+			setSize(btn)
+		})
+	</script>
+
+</html>
