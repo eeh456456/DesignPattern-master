@@ -1,11 +1,87 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
 	</head>
+
 	<body>
 	</body>
 	<script>
+		//页面加载后创建MVC对象
+		$(function() {
+			//初始化MVC对象
+			var MVC = MVC()
+		};
+		//初始化MVC数据模型层
+		MVC.model = function() {}();
+		//初始化MVC视图层
+		MVC.view = function() {}();
+		//初始化MVC控制器层
+		MVC.ctrl = function() $();
+		});
+		
+		// MVc数据模型层
+MVc.model = function(){
+//内部数据对象
+var M= {};
+11服务器端获取的数据，通常通过Ajax获取并存储，
+后面的案例为简化实现，直接作为同步数据
+//写在页面中，减少服务器端异步请求操作
+M.data= };
+//配置数据，页面加载时即提供
+M.conf= {};
+//返回数据模型层对象操作方法
+return {
+//获取服务器端数据
+getData : function(m){
+//根据数据字段获取数据
+return M.data[m];
+},
+//获取配置数据
+getconf : function(c){
+//根据配置数据字段获取配置数据
+return M.conf[c]
+},
+//设置服务器端数据(通常将服务器端异步获取到的数据,
+更新该数据)
+setData : function(m, v){
+//设置数据字段m对应的数据v
+M.data[m]= v;
+return this; 
+/1设置配置数据(通常在页面中执行某些操作,
+为做记录而更新配置数据)
+setconf : function(c, v){
+//设置配置数据字段c对应的配置数据v
+M.conf[c]= v;
+return this;
+}
+}
+}();
+// MVc视图层
+MVc.view = function(){
+/1模型数据层对象操作方法引用
+var M = MVc.model;
+/1内部视图创建方法对象
+varV={}
+//获取视图接口方法
+retur function(v){
+/1根据视图名称返回视图(由于获取的是一个 方法，
+这里需要将该方法执行一遍以获取相应视图)
+V[v]();
+}();
+
+// MVc控制器层
+MVc.ctrl = function(){
+/1模型数据层对象操作方法引用
+var M = MVc.model;
+//视图数据层对象操作方法引用
+var V = MVc.view;
+//控制器创建方法对象
+varc={};
+}();
+
 	</script>
+
 </html>

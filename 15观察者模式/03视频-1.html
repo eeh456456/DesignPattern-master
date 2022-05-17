@@ -22,7 +22,6 @@
 				this.state = state
 				this.notifyAllObservers()
 			}
-
 			notifyAllObservers() {
 				this.observers.forEach(observer => {
 					observer.update()
