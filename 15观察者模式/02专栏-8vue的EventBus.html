@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+	</body>
+	<script>
+		// event-bus.js
+
+		import Vue from 'vue'
+		export const EventBus = new Vue()
+
+		//使用时：
+
+		// 组件A
+		import { EventBus } from "./event-bus.js";
+
+		EventBus.$on("myevent", args => {
+			console.log(args)
+		})
+		// 组件B
+		import { EventBus } from "./event-bus.js";
+
+		EventBus.$emit("myevent", 'some args')
+	</script>
+
+</html>

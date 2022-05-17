@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+	</body>
+	<script>
+		function eventHandler() {
+			console.log('自定义方法')
+		}
+
+		/* ---- 事件订阅 ---- */
+		$('#app').on('myevent', eventHandler)
+		// 发布
+		$('#app').trigger('myevent')
+
+		// 输出：自定义方法
+
+		/* ---- 取消订阅 ---- */
+		$('#app').off('myevent')
+		$('#app').trigger('myevent')
+
+		// 没有输出
+	</script>
+
+</html>

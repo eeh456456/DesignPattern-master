@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+	</body>
+	<script>
+		//这里相当于订阅
+		window.addEventListener('llgTest', (res) => {
+			console.log("监听事件", res.message)
+		});
+		//这里相当于发布
+		setTimeout(() => {
+			var event = new Event('llgTest')
+			event.message = 'secretDate:0516'
+			console.log("触发事件")
+			window.dispatchEvent(event);
+		}, 5000)
+	</script>
+
+</html>

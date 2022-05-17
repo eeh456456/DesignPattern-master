@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+	</body>
+	<script>
+		// src/core/observer/index.js 响应式化过程
+
+		Object.defineProperty(obj, key, {
+			enumerable: true,
+			configurable: true,
+			get: function reactiveGetter() {
+				// ...
+				const value = getter ? getter.call(obj) : val // 如果原本对象拥有getter方法则执行
+				dep.depend() // 进行依赖收集，dep.addSub
+				return value
+			},
+			set: function reactiveSetter(newVal) {
+				// ...
+				if(setter) {
+					setter.call(obj, newVal)
+				} // 如果原本对象拥有setter方法则执行
+				dep.notify() // 如果发生变更，则通知更新
+			}
+		})
+		//而这个 dep 上的 depend 和 notify 就是订阅和发布通知的具体方法。
+	</script>
+
+</html>
