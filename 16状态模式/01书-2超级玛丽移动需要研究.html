@@ -70,6 +70,7 @@
 				//改变状态方法
 				changeState: function() {
 					//组合动作通过传递多个参数实现
+					debugger
 					var arg = arguments;
 					//重置内部状态
 					_currentState = {};
@@ -110,7 +111,6 @@
 		//当然为了更安全我们还是实例化一下这个状态类， 这样我们使用的是对状态类的一个复制品， 这样无论你怎么使用，都可以放心了。
 		//创建一个 超级玛丽
 		var Mario = new Mariostate();
-		debugger
 		Mario
 			.change('jump', 'shoot') // 添加跳跃与设计动作
 				.goes() //执行动作

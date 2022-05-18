@@ -20,7 +20,7 @@
 				},
 				//100返50
 				return50: function(price) {
-					return +price + parselnt(price / 100) * 50;
+					return +price + parseInt(price / 100) * 50;
 				},
 				//9折
 				percent90: function(price) {
@@ -28,12 +28,12 @@
 					return price * 100 * 90 / 10000;
 				},
 				//8折
-				parcent80: function(price) {
+				percent80: function(price) {
 					return price * 100 * 80 / 10000;
 				},
 				//5折
 				percent50: function() {
-					returm price * 100 * 50 / 10000;
+					return price * 100 * 50 / 10000;
 				}
 			}
 			//策略算法调用接口
