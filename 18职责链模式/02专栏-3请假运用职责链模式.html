@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+	</body>
+	<script>
+		/* 小组领导 */
+		var GroupLeader = {
+			nextLeader: null,
+			setNext: function(next) {
+				this.nextLeader = next
+			},
+			handle: function(duration) {
+				if(duration <= 0.5) {
+					console.log('小组领导经过一番心理斗争：批准了')
+				} else
+					this.nextLeader.handle(duration)
+			}
+		}
+
+		/* 部门领导 */
+		var DepartmentLeader = {
+			nextLeader: null,
+			setNext: function(next) {
+				this.nextLeader = next
+			},
+			handle: function(duration) {
+				if(duration <= 1) {
+					console.log('部门领导经过一番心理斗争：批准了')
+				} else
+					this.nextLeader.handle(duration)
+			}
+		}
+
+		/* 总经理 */
+		var GeneralLeader = {
+			nextLeader: null,
+			setNext: function(next) {
+				this.nextLeader = next
+			},
+			handle: function(duration) {
+				if(duration <= 2) {
+					console.log('总经理经过一番心理斗争：批准了')
+				} else
+					console.log('总经理：不准请这么长的假')
+			}
+		}
+
+		GroupLeader.setNext(DepartmentLeader) // 设置小组领导的下一个职责节点为部门领导
+		DepartmentLeader.setNext(GeneralLeader) // 设置部门领导的下一个职责节点为总经理
+
+		GroupLeader.handle(0.5) // 小组领导经过一番心理斗争：批准了
+		GroupLeader.handle(1) // 部门领导经过一番心理斗争：批准了
+		GroupLeader.handle(2) // 总经理经过一番心理斗争：批准了
+		GroupLeader.handle(3) // 总经理：不准请这么长的假
+
+		/* 添加新领导 */
+		var MewLeader = {
+			nextLeader: null,
+			setNext: function(next) {
+				this.nextLeader = next
+			},
+			handle: function(duration) { ...
+			}
+		}
+
+		GroupLeader.setNext(DepartmentLeader) // 设置小组领导的下一个职责节点为部门领导
+		DepartmentLeader.setNext(MewLeader) // 设置部门领导的下一个职责节点为新领导
+		MewLeader.setNext(GeneralLeader) // 设置新领导的下一个职责节点为总经理
+	</script>
+
+</html>

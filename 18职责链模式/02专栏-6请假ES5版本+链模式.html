@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+	</body>
+	<script>
+		/* 领导基类 */
+		var Leader = function() {
+			this.nextLeader = null
+		}
+
+		Leader.prototype.setNext = function(next) {
+			this.nextLeader = next
+			return next
+		}
+
+		/* 小组领导 */
+		var GroupLeader = new Leader()
+		GroupLeader.handle = function(duration) { ...
+		}
+
+		/* 部门领导 */
+		var DepartmentLeader = new Leader()
+		DepartmentLeader.handle = function(duration) { ...
+		}
+
+		/* 总经理 */
+		var GeneralLeader = new Leader()
+		GeneralLeader.handle = function(duration) { ...
+		}
+
+		/* 组装职责链 */
+		GroupLeader
+			.setNext(DepartmentLeader) // 设置小组领导的下一个职责节点为部门领导
+			.setNext(GeneralLeader) // 设置部门领导的下一个职责节点为总经理
+	</script>
+
+</html>
