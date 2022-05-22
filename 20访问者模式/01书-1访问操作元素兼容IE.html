@@ -34,7 +34,7 @@
 			this.style.background = 'red'; //低版本里面，这个this是指向window的
 		});
 		*/
-
+		//李雷关注：在本事例中，访问者模式就是通过fn.call，在没有改写attachEvent，addEventListener源码的情况下给这两个方法改变了this指向
 		function bindIEEvent(dom, type, fn, data) {
 			var data = data || {};
 			console.log(dom)
