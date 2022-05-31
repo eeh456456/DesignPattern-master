@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+	</body>
+	<script>
+		var foo = {
+			paramProto: '原型上的变量'
+		}
+
+		var bar = Object.create(foo, {
+			paramPrivate: {
+				configurable: true,
+				enumerable: true,
+				value: '自有属性',
+				writable: true
+			}
+		})
+
+		$.each(bar, function(key, currValue) {
+			console.log('当前值为 「' + currValue + '」，键为 ' + key)
+		})
+
+		// 输出： 当前值为 「自有属性」   ，键为 paramPrivate
+		// 输出： 当前值为 「原型上的属性」，键为 paramProto
+	</script>
+
+</html>

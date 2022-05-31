@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+	</body>
+	<script>
+		/*不一定在方法中return this， 也可以返回其他对象， 这样后面的方法可以对这个新对象进行其他操作。 
+														比如在 Promise 的实现中， 每次 then 方法返回的就不是 this， 而是一个新的 Promise， 只不过其外观一样，
+														所以我们可以不断 then 下去。 后面的每一个 then 都不是从最初的 Promise 实例点出来的， 
+														而是从前一个 then 返回的新的 Promise 实例点出来的。
+												*/
+		const prom1 = new Promise((resolve, reject) => {
+			setTimeout(() => {
+				console.log('Promise 1 resolved')
+				resolve()
+			}, 500)
+		})
+
+		const prom2 = prom1.then(() => {
+			console.log('Then method')
+		})
+
+		console.log(prom1 === prom2)
+
+		// 输出： false
+
+		/*jQuery 中有一个有意思的方法 end() ，是将匹配的元素还原为之前一次的状态，此时返回的也不是 this，
+			然后可以在返回的之前一次匹配的状态后继续进行链模式：*/
+
+		// html: <p><span>Hello</span>,how are you?</p>
+
+		$("p") // 选择所有 p 标签
+			.find("span") // 选择了 p 标签下的 span 标签
+			.css('color', 'red')
+			.end() // 返回之前匹配的 p 标签
+			.css('color', 'blue')
+
+		//	事实上，某些原生的方法就可以使用链模式，以数组操作为例，比如我们想查看一个数组中奇数的平方和：
+		[1, 2, 3, 4, 5, 6]
+		.filter(num => num % 2)
+			.map(num => num * num)
+			.reduce((pre, curr) => pre + curr, 0)
+
+		// 输出 35
+		/*那么这里为什么可以使用链模式呢，是因为 filter、map、reduce 这些数组方法返回的仍然是数组，因此可以继续在后面调用数组的方法。
+		注意，并不是所有数组方法都返回数组，比如 push 的时候返回的是新数组的 length 属性。*/
+	</script>
+
+</html>

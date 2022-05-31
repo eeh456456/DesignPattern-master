@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		有时候 JavaScript 原生提供的方法不太好用， 比如我们希望创建下面这样一个 DOM 树结构：<br>
+		<ul id='data-list'>
+			<li class='data-item'>li-item 1</li>
+			<li class='data-item'>li-item 2</li>
+			<li class='data-item'>li-item 3</li>
+		</ul>
+	</body>
+	<script>
+		//如果使用原生方法， 由于 setAttribute 等方法并没有返回原对象， 而 appendChild 方法返回的却是， 我们需要：
+
+		const ul = document.createElement('ul')
+		ul.setAttribute('id', 'data-list')
+
+		const li1 = document.createElement('li')
+		const li2 = document.createElement('li')
+		const li3 = document.createElement('li')
+
+		li1.setAttribute('id', 'data-item')
+		li2.setAttribute('id', 'data-item')
+		li3.setAttribute('id', 'data-item')
+
+		const text1 = document.createTextNode('li-item 1')
+		const text2 = document.createTextNode('li-item 2')
+		const text3 = document.createTextNode('li-item 3')
+
+		li1.appendChild(text1)
+		li2.appendChild(text2)
+		li3.appendChild(text3)
+
+		ul.appendChild(li1)
+		ul.appendChild(li2)
+		ul.appendChild(li3)
+		
+		//以下是改造后的代码
+		const createElement = function(tag) {
+			return tag === 'text' ?
+				document.createTextNode(tag) :
+				document.createElement(tag)
+		}
+
+		HTMLElement.prototype._setAttribute = function(key, value) {
+			this.setAttribute(key, value)
+			return this
+		}
+
+		HTMLElement.prototype._appendChild = function(child) {
+			this.appendChild(child)
+			return this
+		}
+
+		createElement('ul')
+			._setAttribute('id', 'data-list')
+			._appendChild(
+				createElement('li')
+				._setAttribute('class', 'data-item')
+				._appendChild('text', 'li-item 1'))
+			._appendChild(
+				createElement('li')
+				._setAttribute('class', 'data-item')
+				._appendChild('text', 'li-item 2'))
+			._appendChild(
+				createElement('li')
+				._setAttribute('class', 'data-item')
+				._appendChild('text', 'li-item 3'))
+		这样就比较彻底地使用了链模式来生成 DOM 结构树了， 你可能感觉有点奇怪， 但是如果你使用过 vue - cli3， 那么你可能对这个配置方式很熟悉。
+	</script>
+
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		举一个有点意思的例子。相亲是一个多方博弈、互相选择（嫌弃）的场景，<br>
+		男生和女生相亲，不仅仅是男生和女生两方关系，<br>
+		还有： 男方的角度： 男生会考虑女生的长相、身高、性格、三观、家境、和自己父母能不能合得来、对方家长是否好相处等等；<br>
+		 男生的家长会考虑女生的条件、和自己儿子搭不搭、对方家长的性格等等；<br>
+		 女方的角度： 女生会考虑男生的性格、上进心、是不是高富帅、能不能通过自己父母的法眼、对方家长是否好相处等等；<br>
+		 女生的家长也会考虑男生的条件、是不是配得上自己女儿、对方家长的性格等等； <br>
+		 双方的家长可能还有博弈和交换，比如你家是公务员，那么可以稍微穷一点；我家比较帅，那么矮一点对方也可以接受…<br>
+		 总之，男生、女生、男方家长、女方家长各方的关系交错复杂，每个人都有自己的考量，<br>
+		 如果某一方有什么想法，要和其他三方进行沟通，牵一发动全身。<br>
+		 这时候我们可以引入媒人，无论哪一方有什么要求或者什么想法，都可以直接告诉媒人，这样就不用各方自己互相沟通了。
+	</body>
+	<script>
+		class Person {
+			/* 个人信息 */
+			constructor(name, info, target) {
+				this.name = name
+				this.info = info // 是一个对象，每一项为数字，比如身高、工资..
+				this.target = target // 也是对象，每一项为两个数字的数组，表示可接受的最低和最高值
+				this.enemyList = [] // 考虑列表
+			}
+
+			/* 注册相亲对象及家长 */
+			registEnemy(...enemy) {
+				this.enemyList.push(...enemy)
+			}
+
+			/* 检查所有相亲对象及其家长的条件 */
+			checkAllPurpose() {
+				this.enemyList.forEach(enemy => enemy.info && this.checkPurpose(enemy))
+			}
+
+			/* 检查对方是否满足自己的要求，并发信息 */
+			checkPurpose(enemy) {
+				const result = Object.keys(this.target) // 是否满足自己的要求
+					.every(key => {
+						const [low, high] = this.target[key]
+						return low <= enemy.info[key] && enemy.info[key] <= high
+					})
+				enemy.receiveResult(result, this, enemy) // 通知对方
+			}
+
+			/* 接受到对方的信息 */
+			receiveResult(result, they, me) {
+				result
+					?
+					console.log(`${ they.name }：我觉得合适~ \t（我的要求 ${ me.name } 已经满足）`) :
+					console.log(`${ they.name }：你是个好人! \t（我的要求 ${ me.name } 不能满足！）`)
+			}
+		}
+
+		/* 男方 */
+		const ZhangXiaoShuai = new Person(
+			'张小帅', {
+				age: 25,
+				height: 171,
+				salary: 5000
+			}, {
+				age: [23, 27]
+			})
+
+		/* 男方家长 */
+		const ZhangXiaoShuaiParent = new Person(
+			'张小帅家长',
+			null, {
+				height: [160, 167]
+			})
+
+		/* 女方 */
+		const LiXiaoMei = new Person(
+			'李小美', {
+				age: 23,
+				height: 160
+			}, {
+				age: [25, 27]
+			})
+
+		/* 女方家长 */
+		const LiXiaoMeiParent = new Person(
+			'李小美家长',
+			null, {
+				salary: [10000, 20000]
+			})
+
+		/* 注册，每一个 person 实例都需要注册对方家庭成员的信息 */
+		ZhangXiaoShuai.registEnemy(LiXiaoMei, LiXiaoMeiParent)
+		LiXiaoMei.registEnemy(ZhangXiaoShuai, ZhangXiaoShuaiParent)
+		ZhangXiaoShuaiParent.registEnemy(LiXiaoMei, LiXiaoMeiParent)
+		LiXiaoMeiParent.registEnemy(ZhangXiaoShuai, ZhangXiaoShuaiParent)
+
+		/* 检查对方是否符合要求，同样，每一个 person 实例都需要执行检查 */
+		ZhangXiaoShuai.checkAllPurpose()
+		LiXiaoMei.checkAllPurpose()
+		ZhangXiaoShuaiParent.checkAllPurpose()
+		LiXiaoMeiParent.checkAllPurpose()
+
+		// 张小帅：我觉得合适~ 	（我的要求 李小美 已经满足）
+		// 李小美：我觉得合适~ 	（我的要求 张小帅 已经满足）
+		// 张小帅家长：我觉得合适~ 	（我的要求 李小美 已经满足）
+		// 李小美家长：你是个好人! 	（我的要求 张小帅 不能满足！）
+	</script>
+
+</html>

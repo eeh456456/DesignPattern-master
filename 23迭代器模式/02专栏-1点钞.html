@@ -1,0 +1,36 @@
+f
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+	</body>
+	<script>
+		var bills = ['MCK013840031', 'MCK013840032', 'MCK013840033', 'MCK013840034', 'MCK013840035']
+
+		bills.forEach(function(bill) {
+			console.log('当前钞票的冠字号为 ' + bill)
+		})
+
+		//前面的 forEach 方法是在 IE9 之后才原生提供的，那么在 IE9 之前的时代里，如何实现一个迭代器呢，我们可以使用 for 循环自己实现一个 forEach：
+
+		var forEach = function(arr, cb) {
+			for(var i = 0; i < arr.length; i++) {
+				cb.call(arr[i], arr[i], i, arr)
+			}
+		}
+
+		forEach(['hello', 'world', '!'], function(currValue, idx, arr) {
+			console.log('当前值 ' + currValue + '，索引为 ' + idx)
+		})
+
+		// 输出： 当前值 hello，索引为 0
+		// 输出： 当前值 world，索引为 1
+		// 输出： 当前值 !    ，索引为 2
+	</script>
+
+</html>

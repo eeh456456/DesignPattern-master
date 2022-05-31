@@ -12,8 +12,8 @@
 		//对象A: 
 		var A = {};
 		//获取A属性b下面的c属性: 
-		var c = A.b.c; 
-		//(这种直接获取方式是不 允许的， 会报错)
+		//var c = A.b.c; 
+		//(这种直接获取方式是不允许的， 会报错)
 		//正确方式: 
 		var c = A && A.b && A.b.c;
 		//以下是一个实例：
@@ -85,12 +85,12 @@
 			return result[key[i]] = val;
 		}
 		//缓存添加体育新闻模块数据
-		console.log(ASetter('client.module.news.sports', 'on'));
+		//console.log(ASetter('client.module.news.sports', 'on'));
 		//当然对于一些值类型属性的数据进行子属性赋值操作是不允许 的。
 		//为值类型数据添加属性是不允许的
-		console.log(ASetter('client.user.usermame.sports', 'on'));
+		//console.log(ASetter('client.user.usermame.sports', 'on'));
 		//Uncaught Error: A.client.user.username is not object
-		//有时为了操作对象方便， 取值器与赋值器也通常直接赋值给对 象的基类。
+		//有时为了操作对象方便， 取值器与赋值器也通常直接赋值给对象的基类。
 	</script>
 
 </html>

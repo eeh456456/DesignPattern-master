@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+	</body>
+	<script>
+		//在 jQuery 时代，下面这样的用法我们很熟悉了：
+		// 使用链模式
+		$('div')
+			.show()
+			.addClass('active')
+			.height('100px')
+			.css('color', 'red')
+			.on('click', function(e) {
+				// ... 
+			})
+
+		// 不使用链模式
+		var divEls = $('div')
+		divEls.show()
+		divEls.addClass('active')
+		divEls.height('100px')
+		divEls.css('color', 'red')
+		divEls.on('click', function(e) {
+			// ... 
+		})
+	</script>
+
+</html>

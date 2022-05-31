@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+	</body>
+	<script>
+		// jquery 源码  /src/core.js#L246-L265
+		each: function(obj, callback) {
+			var i = 0
+
+			// obj 为数组时
+			if(isArrayLike(obj)) {
+				for(; i < obj.length; i++) {
+					if(callback.call(obj[i], i, obj[i]) === false) {
+						break
+					}
+				}
+			}
+
+			// obj 为对象时
+			else {
+				for(i in obj) {
+					if(callback.call(obj[i], i, obj[i]) === false) {
+						break
+					}
+				}
+			}
+
+			return obj
+		}
+
+		// 使用
+		$.each(['hello', 'world', '!'], function(idx, currValue) {
+			console.log('当前值 ' + currValue + '，索引为 ' + idx)
+		})
+		
+		//这里的源码分为两个部分，前一个部分是形参 obj 为数组情况下的处理，使用 for 循环，
+		//以数组下标依次使用 call/apply 传入回调中执行，第二部分是形参 obj 为对象情况下的处理，
+		//是使用 for-in 循环来获取对象上的属性。另外可以看到如果 callback.call 返回的结果是 false 的话，这个循环会被 break。
+		//源码位置：https://github.com/jquery/jquery/blob/3.4.1/src/core.js#L246-L265
+
+	</script>
+
+</html>
