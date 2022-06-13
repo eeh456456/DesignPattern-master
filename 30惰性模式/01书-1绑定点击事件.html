@@ -55,10 +55,16 @@
 			}
 		}();
 		*/
+		// chrome浏览器中
+		//console.log(A.on)
+		//function(dom, type, fn) {
+		// dom.addEventListener(type, fn, false); 
+		//}
+
 		//惰性执行
 		//添加绑定事件方法on
 		A.on = function(dom, type, fn) {
-			//如果支持addEventL istener方法
+			//如果支持addEventListener方法
 			if(dom.addEventListener) {
 				//			if(typeof(eval(dom.addEventListener))=="function") {
 				//显示重定义on方法
@@ -66,7 +72,7 @@
 					dom.addEventListener(type, fn, false);
 				}
 				//如果支持attachEvent方法(IE)
-			} else if(typeof(eval(dom.attachEvent)) == "function") {
+			} else if(dom.attachEvent) {
 				//显示重定义on方法
 				A.on = function(dom, type, fn) {
 					dom.attachEvent('on' + type, fn);
@@ -82,7 +88,7 @@
 			A.on(dom, type, fn);
 		};
 
-		/*第二种实现方式与第-种实现方式的不同之处在于，
+		/*第二种实现方式与第一种实现方式的不同之处在于，
 		首先，内部对元素dom执行能力检测并显示重写，
 		其次，原始函数在函数的最末尾重新执行一遍来绑定事件。
 		不过在文件加载后A.on方法还没能重新被定义。

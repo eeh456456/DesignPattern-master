@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<div id="container"></div>
+	</body>
+	<script>
+		//命名空间单体对象
+		var A = A || {};
+		//主体展示区容器
+		A.root = document.getElementById('container');
+		//创建视图方法集合
+		A.strategy = {
+			//文字列表展示
+			'listPart': function(data) {
+				var s = document.createElement("div"), //模块容器
+					h = document.createElement("h2"), //标题容器
+					p = document.createElement("p"), //描述容器
+					ht = document.createTextNode(data.data.h2), // 标题内容
+					pt = document.createTextNode(data.data.p), // 描述内容
+					ul = document.createElement("ul"), // 列表容器
+					ldata = data.data.li, //列表数据
+					//li列表项容器，stron 列表项标题，span列表项解释，t列表项标题内容， c列表项解释内容
+					li, strong, span, t, c;
+				//有id设置模块id
+				data.id && (s.id = data.id);
+				s.className = "part"; //设置模块类名
+				h.appendchild(ht); //将标题内容放入标题容器中
+				p.appendchild(pt); //将描述内容放入描述容器中
+				s.appendchild(h); //将标题容器插入模块容器中
+				s.appendchild(p); //将描述容器插入模板容器中
+				//遍历列表数据
+				for(var i = 0, len = ldata.length; i < len; i++) {
+					li = document.createElement("li"); //创建列表项容器
+					strong = document.createElement("strong"); //创建列表项标题容器
+					span.appendchild(c);
+					//向列表项解释容器中插入解释内容
+					li.appendchild(strong); // 向列表项中插入列表项标题
+					li.appendchild(span); // 向列表项中插入列表项解释
+					ul.appendchild(li); //向列表容器中插入列表项
+				}
+				s.appendchild(ul); //向模块中插入列表
+				A.root.appendchild(s); //展现模块
+			},
+			'codePart': function() {},
+			'onlyTitle': function() {},
+			'guide': function() {}
+		}
+		// .
+		//创建视图入口
+		A.init = function(data) {
+			//根据传输的视图类型创建视图
+			this.strategy[data.type](data);
+		}
+	</script>
+
+</html>

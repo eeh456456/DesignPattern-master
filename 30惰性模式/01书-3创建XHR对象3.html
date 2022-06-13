@@ -17,7 +17,22 @@
 				};
 			} else if(typeof ActiveXObject != "undefined") {
 				createXHR = function() {
-					//省略代码
+					if(typeof arguments.callee.activeXString != "string") {
+						var versions = ["MSXML2.XMLHttp.6.0", "MSXML2.XMLHttp.3.0", "MSXML2.XMLHttp"],
+							i = 0,
+							len = versions.length;
+						//遍历并设置版本
+						for(; i < len; i++) {
+							try {
+								new ActiveXObect(versions[i]);
+								arguments.callee.activeXString = versions[i];
+								break;
+							} catch(ex) {}
+						}
+					}
+					console.log('ActiveXObect')
+					return new ActiveXObect(arguments.callee.activeXString);
+					//对不支持的浏览器抛出错误提示
 				};
 			} else {
 				createXHR = function() {
@@ -26,6 +41,7 @@
 			}
 			return createXHR();
 		}
+		console.log(createXHR())
 	</script>
 
 </html>
