@@ -14,13 +14,13 @@
 		//重写bind
 		function bind(fn, context) {
 			//缓存数组slice方法
-			var slice = Array.prototype.slice,
+			var Slice = Array.prototype.slice,
 				//从第三个参数开始截取参数(包括第三个参数)
-				args = slice.call(arguments, 2);
+				args = Slice.call(arguments, 2);
 			//返回新方法
 			return function() {
 				//将参数转化为数组
-				var addArgs = slice.call(arguments),
+				var addArgs = Slice.call(arguments),
 					//拼接参数
 					allArgs = addArgs.concat(args);
 				//对fn装饰并返回
@@ -31,15 +31,15 @@
 		if(Function.prototype.bind === undefined) {
 			Function.prototype.bind = function(context) {
 				//缓存数组slice方法
-				var slice = Array.prototype.slice,
+				var Slice = Array.prototype.slice,
 					//从第二个参数截取参数
-					args = slice.call(arguments, 1),
+					args = Slice.call(arguments, 1),
 					//保存当前函数引用
 					that = this;
 				//返回新函数
 				return function() {
 					//将参数数组化
-					var addArgs = slice.call(arguments),
+					var addArgs = Slice.call(arguments),
 						//拼接参数，注意:传入的参数放在了后面
 						allArgs = args.concat(addArgs);
 					//对当前函数装饰并返回

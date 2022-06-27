@@ -4,6 +4,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
+		<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
 	</head>
 
 	<body>
@@ -11,35 +12,36 @@
 	<script>
 		//封装get请求
 		var ajaxGet = function(url, success, fail) {
-				var xhr = new XMLHttpRequest();
-				//创建检测对象
-				var dtd = waiter.Deferred();
-				xhr.onload = function(event) {
-					//请求成功
-					if((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
-						success && success()
-						dtd.resolve();
-						//请求失败
-					} else {
-						dtd.reject();
-						fail && fai();
-					};
-					xhr.open('get', url, true);
-					xhr.send(null);
-				};
+			var xhr = new XMLHttpRequest();
+			//创建检测对象
+			var dtd = waiter.Deferred();
+			xhr.onload = function(event) {
+				//请求成功
+				if((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+					success && success()
+					dtd.resolve();
+					//请求失败
+				} else {
+					dtd.reject();
+					fail && fail();
+				}
+			};
+			xhr.open('get', url, true);
+			xhr.send(null);
+		};
 
-				//长轮询
-				(function getAjaxData() {
-					//保存当前函数
-					var fn = arguments.callee;
-					setTimeout(function() {
-						$.get('./test.php ', function() {
-							console.log('轮询一次');
-							//再一次执行轮询
-							fn();
-						})
-					}, 5000)
-				})();
+		//长轮询
+		(function getAjaxData() {
+			//保存当前函数
+			var fn = arguments.callee;
+			setTimeout(function() {
+				$.get('./test.php', function() {
+					console.log('轮询一次');
+					//再一次执行轮询
+					fn();
+				})
+			}, 5000)
+		})();
 	</script>
 
 </html>

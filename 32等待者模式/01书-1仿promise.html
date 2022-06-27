@@ -4,9 +4,11 @@
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
+		<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
 	</head>
 
 	<body>
+		相当于ES6的promise
 	</body>
 	<script>
 		var Waiter = function() {
@@ -86,7 +88,7 @@
 				//获取监控对象数组长度
 				var i = dfd.length;
 				//向前遍历监控对象，最后一个监控对象的索引值为length-1
-				fr(--i; i >= 0; i--) {
+				for(--i; i >= 0; i--) {
 					//如果不存在监控对象，或者监控对象己经解决，或者不是监控对象
 					if(!dfd[i] || dfd[i].resolved || dfd[i].rejected || !dfd[i] instanceof Primise) {
 						//清理内存，清除当前监控对象
@@ -106,21 +108,13 @@
 			//解决失败回调函数添加方法
 			that.fail = function() {
 				//向失败回调函数容器中添加回调方法
-				failArr = failrconcat(lie.cal(arguments));
+				failArr = failArr.concat(slice.call(arguments));
 				//返回等待者对象
 				return that;
-
 			};
-			//解决失败回调函数添加方法
-			that.fail = function() {
-				//向失败回调函数容器中添加回调方法
-				failArr = failrcocat(lie.cal(arguments));
-				//返回等待者对象
-				return that;
-			}
 		}
 
-		var weiter = new Waiter();
+		var waiter = new Waiter();
 		//第一个彩蛋, 5秒后停止
 		var first = function() {
 			//创建监听对象
@@ -147,8 +141,7 @@
 		}();
 
 		waiter
-			//监听两个彩蛋
-			.when(first, second)
+			.when(first, second) //监听两个彩蛋
 			//添加成功回调函数
 			.done(function() {
 					console.log('success');
@@ -172,9 +165,6 @@
 			.fail(function() {
 				console.log('失败');
 			});
-	
-	
-	
 	</script>
 
 </html>

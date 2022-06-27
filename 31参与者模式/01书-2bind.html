@@ -13,6 +13,7 @@
 		function bind(fn, context) {
 			//闭包返回新函数
 			return function() {
+				debugger//无法在这个位置打断点
 				//对fn装饰并返回
 				return fn.apply(context, arguments);
 			}
@@ -27,6 +28,7 @@
 		}
 		//让demoObj参与demoFn的执行
 		var bindFn = bind(demoFn, demoObj);
+		//demoFn相当于fn,demoObj相当于context？
 		demoFn(); // undefined 
 		bindFn(); //这是一个例子
 	</script>
