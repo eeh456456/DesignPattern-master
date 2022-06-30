@@ -7,6 +7,7 @@
 	</head>
 
 	<body>
+		<div id="test">test</div>
 	</body>
 	<script>
 		//定义模块管理器单体对象
@@ -43,7 +44,7 @@
 				//缓存下一层级的祖父模块
 				old = parent;
 				//缓存下一层级父模块
-				parent = parent[pars[i]];
+				parent = parent[parts[i]];
 			}
 			//如果给定模块方法则定义该模块方法
 			if(fn) {
@@ -53,17 +54,47 @@
 			//返回模块管理器单体对象
 			return this;
 		}
-
-		// F.string模块   标记
-		F.define(string ', function(){
+		// F.string模块  
+		F.define('string', function() {
 			//接口方法
 			return {
 				//清楚字符串两边空白
 				trim: function(str) {
-					return str.replace( ^ \s + | \s + $ / g, ");
-					}
+					return str.replace(/^\s+|\s+$/g, '');
 				}
-			});
+			}
+		});
+
+		/*注意:在真正的模块开发中，是不允许这样直接调用的，有两点原因，
+		技术上，模块通常保存在闭包内部的私有变量里,而不会保存在F上，
+		因此是获取不到的，而我们这里简化了闭包，也为测试方便，因此直接引用。
+		其次，类似如下调用是不符合模块化开发规范的。*/
+		F.string.trim('测试用例。') //测试用例。
+
+		/*对于模块的回调函数，我们也可以以构造函数的形式返回接口，
+                 比如我们创建DOM模块，其中包括dom()获取元素方法、html()获取或者设置元素innerHTML内容方法等等。*/
+		F.define('dom', function() {
+			//简化获取元素方法(重复获取可被替代， 此设计用于演示模块添加)
+			var $ = function(id) {
+				$.dom = document.getElementById(id);
+				//返回构造函数对象
+				return $;
+			}
+			//获取或者设置元素内容
+			$.html = function(html) {
+				//如果传参则设置元素内容，否则获取元素内容!
+				if(html) {
+					this.dom.innerHTML = html;
+					return this;
+				} else {
+					return this.dom.innerHTML;
+				}
+			}
+			//返回构造函数
+			return $;
+		});
+
+		F.dom('test').html(); //"test"
 	</script>
 
 </html>
