@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		//页面元素内容
+< div id="demo_ tag" class="template" >
+< div id="tag_ cloud" >
+{% for(var i= 0, len = tagcloud.length; i < len; i++){
+var ctx = tagcloud[]; %}
+<a href="#" class="tag_ item
+{% f(tx[i_i _selected"]){ %}
+selected
+{%} %}
+" tle="{%=cx["itl'"]%}" > {%=cx["text"]%} </a>
+{%} %}
+< /div >
+< /div >
+//表单元素内的内容
+< textarea id="demo_ textarea" class="template" >
+< div id="tag_ cloud" >
+{% for(var i= 0, len = tagcloud.length; i < len; i+){
+var ctx = tagcloud[j; %}
+< a href=' "#" class="tag_ item
+{% f(tx['i_j selected"]){ %}
+selected
+{% }%}
+" tle="{%=cx[itl'"]%}" > {%=ctx["text"]%}<la>
+{%} %}
+< /div >
+< /textarea > // script模板内容
+< script type="textemplate" id="demo_ script" >
+< div id="tag_ cloud" >
+{% for(var i= 0, len = tagcloud.length; i < len; i++){
+var ctx = tagcloud[j]; %}
+<a href="#" class="tag_ item
+{% if(tx('"i_ selected"]){ %}
+selected
+{%} %}
+”te="{%=tx"tite']%}" > {%=ctx["text"]%} </a>
+{%} %}
+< /div >
+< /script >
+/1自定义模板
+var demo_ tpl= [<div id="tag_ _cloud"> ;
+{% for(var i= 0, len = tagcloud.length; i < len; i++)",
+'var ctx = tagcloud[]; %};,
+'<a href="#" class="tag_ item ',
+{% f(xI'"_ selected"]){ %},
+'selected',
+{% } %}',
+" title="'%=ctxI"title"]%}" > {%=cx["text"]%} </a>，
+'{%} %},
+'< /div> ]join("); 
+
+	</body>
+	<script>
+		var data = {
+tagcloud: [
+{is_ selected: true, title:这是一本设计模式书， text:设计模式
+},
+{is_ selected: false, title:这是一-本HTML书， text: 'HTML'},
+{is_ selected: null, title:这是一-本css书, text: 'css'},
+{is_ selected: ", title:这是一-本Javascript书";, text: 'Javascript},
+};
+
+	</script>
+</html>
