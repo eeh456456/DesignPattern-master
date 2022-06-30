@@ -5,7 +5,20 @@
 		<title></title>
 	</head>
 	<body>
+		对功能分割成一个个组件，作为一个模块样，分解视图开发。
+		如果这样，我们就要对视图进行分割，将功能融合形成一套完整的组件，来解决视图开发中的耦合问题
+
+		Widget模式开发中一个组件就要对应一个文件了，而不是某个功能或者某个视图，
+		因此在这个组件文件中你要做两件事，第一创建视图，第二添加相应的功能。
+		接下来先介绍分解和创建视图
+		
+		<!--
+		模板: <a href="#" class="data-lang {% if(is_selected) {%}selected {% } %}" value="{%=value%}"> {%=text%}</a>
+		数据: {is_selected: true,value:'zh',text:'zh-text'}
+		=>输出结果:<a href="#" class = "data-lang selected" value="zh"> zh-text</a>
+		-->
 	</body>
 	<script>
+
 	</script>
 </html>
