@@ -53,6 +53,14 @@ F.define('string', function() {
 	}
 });
 
+/*注意:在真正的模块开发中,是不允许这样直接调用的,有两点原因,
+技术上,模块通常保存在闭包内部的私有变量里,而不会保存在F上,
+因此是获取不到的,而我们这里简化了闭包,也为测试方便,因此直接引用。
+其次,类似如下调用是不符合模块化开发规范的。
+		
+解释：他的意思就是F.string不应该被直接调用,应该用参数调用？*/
+console.log(F.string.trim('测试用例。')) //测试用例。
+
 /*对于模块的回调函数,我们也可以以构造函数的形式返回接口,
                  比如我们创建DOM模块,其中包括dom()获取元素方法、html()获取或者设置元素innerHTML内容方法等等。*/
 F.define('dom', function() {
@@ -75,7 +83,7 @@ F.define('dom', function() {
 	//返回构造函数
 	return $;
 });
-
+console.log(F.dom('test').html()); //"test"
 //为dom模块添加addclass方法
 //注意,此种添加模式之所以可行,是因为将模块添加到F对象上,模块化开发中只允许上面的添加方式
 F.define('dom.addclass');
@@ -88,6 +96,8 @@ F.dom.addClass = function(type, fn) {
 		}
 	}
 }();
+//测试用例
+//F.dom('test').addClass('test')
 //模块调用方法 
 F.module = function() {
 	//将参数转化为数组
@@ -132,7 +142,13 @@ F.module = function() {
 	//执行回调执行函数
 	fn.apply(null, modules);
 }
-
+//引用dom模块与document对象(注意,依赖模块对象通常为己创建的模块对象)
+F.module(['dom', document], function(dom, doc) {
+	//通过dom模块设置元素内容
+	dom('test').html('new add!');
+	//通过document设置body元素背景色
+	doc.body.style.background = 'red';
+});
 //在上例中,我们通过数组来声明了依赖模块, 其实还可以以字符串形式传入, 比如：
 //依赖引用dom模块,string.trim方法
 F.module('dom', 'string.trim', function(dom, trim) {
