@@ -83,7 +83,7 @@ F.define('dom', function() {
 	//返回构造函数
 	return $;
 });
-console.log(F.dom('test').html()); //"test"
+//console.log(F.dom('test').html()); //"test"
 //为dom模块添加addclass方法
 //注意,此种添加模式之所以可行,是因为将模块添加到F对象上,模块化开发中只允许上面的添加方式
 F.define('dom.addclass');
@@ -142,18 +142,3 @@ F.module = function() {
 	//执行回调执行函数
 	fn.apply(null, modules);
 }
-//引用dom模块与document对象(注意,依赖模块对象通常为己创建的模块对象)
-F.module(['dom', document], function(dom, doc) {
-	//通过dom模块设置元素内容
-	dom('test').html('new add!');
-	//通过document设置body元素背景色
-	doc.body.style.background = 'red';
-});
-//在上例中,我们通过数组来声明了依赖模块, 其实还可以以字符串形式传入, 比如：
-//依赖引用dom模块,string.trim方法
-F.module('dom', 'string.trim', function(dom, trim) {
-	//测试元素<div id="test"> test </div>
-	var html = dom('test').html(); // 获取元素内容
-	var str = trim(html); //去除字符串两边空白符
-	console.log("*" + html + "*", "*" + str + "*"); // * test * test *
-});
