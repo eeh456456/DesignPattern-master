@@ -11,22 +11,6 @@
 		用js代码异步引用js文件
 	</body>
 	<script>
-		//加载脚本文件
-		var loadScript = function(src) {
-			var _script = document.createElement('script'); //创建脚本元素
-			_script.type = 'text/JavaScript'; //设置类型
-			_script.src = src; //设置加载路径
-			document.getElementsByTagName('head')[0].appendChild(_script);
-			//将元素插入到页面中
-		}
-		//加载localstorage文件
-		loadScript('localstorage.js');
-		//使用localstorage模块
-		F.module('localstorage', function(ls) {
-			// do something
-			console.log('成功引入localstorage.js')
-		});
-
 		//向闭包中传入模块管理器对象F ( ~屏蔽压缩文件时,前面漏写;报错) 
 		~(function(F) {
 			//模块缓存器。存储已创建模块
