@@ -4,32 +4,55 @@
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
+		<script typet="text/javascript"
+		 src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
 	</head>
 
 	<body>
 	</body>
 	<script>
 		//页面加载后创建MVC对象
-		$(function() {
-			//初始化MVC对象
-			var MVC = MVC() || {}
-			//初始化MVC数据模型层
-			MVC.model = function() {}();
-			//初始化MVC视图层
-			MVC.view = function() {}();
-			//初始化MVC控制器层
-			MVC.ctrl = function() {}();
-		});
+		//		$(function() {
+		//初始化MVC对象
+		var MVC = MVC || {}
+		//初始化MVC数据模型层
+		MVC.model = function() {}();
+		//初始化MVC视图层
+		MVC.view = function() {}();
+		//初始化MVC控制器层
+		MVC.ctrl = function() {}();
+		//		});
 
 		// MVC数据模型层
 		MVC.model = function() {
 			//内部数据对象
-			var M = {};
-			//服务器端获取的数据，通常通过Ajax获取并存储，后面的案例为简化实现， 直接作为同步数据
-			//写在页面中，减少服务器端异步请求操作
-			M.data = {};
-			//配置数据，页面加载时即提供
-			M.conf = {};
+
+			var M = {}
+			//服务器端获取的数据,通常通过Ajax获取并存储,后面的案例为简化实现, 直接作为同步数据
+			//写在页面中,减少服务器端异步请求操作
+			M.data = {
+				//左侧侧边栏导航服务器端请求得到的响应数据
+				slideBar: [{
+					text: '布偶猫',
+					icon: 'left_meng.png',
+					title: '布偶猫',
+					content: '123',
+					img: 'left_meng_img.png',
+					href: 'http://moe.hao123.com'
+				}, {
+					text: '阿比西尼亚猫',
+					icon: 'left_meng.png',
+					title: '阿比西尼亚猫',
+					content: '123',
+					img: 'left_meng_img.png',
+					href: 'http://moe.hao123.com'
+				}]
+			}
+			//配置数据,页面加载时即提供
+			M.conf = {
+				//侧边导航动画配置数据
+				slideBarCloseAnimate: false
+			}
 			//返回数据模型层对象操作方法
 			return {
 				//获取服务器端数据
@@ -58,262 +81,238 @@
 		}();
 		// MVC视图层
 		MVC.view = function() {
-				//模型数据层对象操作方法引用
-				var M = MVC.model;
-				//内部视图创建方法对象
-				var V = {}
-				//获取视图接口方法
-				return function(v) {
-					//根据视图名称返回视图(由于获取的是一个方法,这里需要将该方法执行一遍以获取相应视图)
-					V[v]();
-				}();
+			//模型数据层对象操作方法引用
+			var M = MVC.model;
+			//内部视图创建方法对象
+			var V = {}
+			//获取视图接口方法
+			return function(v) {
+				//根据视图名称返回视图(由于获取的是一个方法,这里需要将该方法执行一遍以获取相应视图)
+				V[v]();
+			}
+		}();
 
-				// MVC控制器层
-				MVC.ctrl = function() {
-					//模型数据层对象操作方法引用
-					var M = MVC.model;
-					//视图数据层对象操作方法引用
-					var V = MVC.view;
-					//控制器创建方法对象
-					var c = {};
-				}();
+		// MVC控制器层
+		MVC.ctrl = function() {
+			//模型数据层对象操作方法引用
+			var M = MVC.model;
+			//视图数据层对象操作方法引用
+			var V = MVC.view;
+			//控制器创建方法对象
+			var c = {};
+		}();
 
-				//侧边导航栏
-				MVC.model = function() {
-					var M = {}
-					M.data = {
-						//左侧侧边栏导航服务器端请求得到的响应数据
-						slideBar: [{
-								text: '布偶猫',
-								icon: 'left_meng.png',
-								title: '布偶猫',
-								content: '123',
-								img: 'left_meng_img.png',
-								href: 'http://moe.hao123.com'
-							}, {
-								text: '阿比西尼亚猫',
-								icon: 'left_meng.png',
-								title: '阿比西尼亚猫',
-								content: '123',
-								img: 'left_meng_img.png',
-								href: 'http://moe.hao123.com'
+		//侧边导航栏视图层
+		MVC.view = function() {
+			var M = MVC.model;
+			var V = {
+				//创建侧边导航模块视图
+				createSlideBar: function() {
+					//导航图标内容
+					var html = '',
+						//视图渲染数据
+						data = M.getData('slideBar');
+					//屏蔽无效数据
+					if(!data || !data.length) {
+						return;
+					}
+					//创建视图容器(参考附录A中, A框架中创建元素方法create)
+					var dom = $.create('div', {
+						'class': 'slidebar',
+						'id': 'slidebar'
+					}); //这个$.create是哪来的？
+					//视图容器模板
+					var tpl = {
+						container: [
+							'<div class="slidebar-inner"><ul>{#content#} </ul></div>',
+							'<a hidefocus href="#" class="slidebar-close" title="收起"/>'
+						].join(''),
+						//导航图标模块模板
+						item: [
+							'<li>',
+							'<a class="icon" href="{#href#}">',
+							'<img src="common/img/{#icon#}">',
+							'<span> {#text#} </span>',
+							'</a>',
+							'<div class="box">',
+							'<div>',
+							'<a class="title" href="{#href#}"> {#title#}</a>',
+							'<a href="{#href#}">{#content#}</a>',
+							'</div>',
+							'<a class="image" href="{#href#}"> <img src="common/img/{#img#}"/> </a>',
+							'</div>',
+							'</li>'
+						].join('')
+					};
+					//渲染全部导航图片模块
+					for(var i = 0, len = data.length; i < len; i++) {
+						html += $.formateString(tpl.item, data[i]);
+					}
+					//在页面中创建侧边导航视图
+					dom
+						//向侧边导航模块容器中插入侧边导航视图
+						.html(
+							//渲染导航视图(content为导航图片内容) 
+							$.formateString(tpl.container, {
+								content: html
+							})
+						)
+						//将侧边导航模块容器插入页面中
+						.appendTo('body');
+				}
+			}
+			return function(v) {
+				V[v]();
+			}
+		}();
+		MVC.ctrl = function() {
+			var M = MVC.model;
+			var V = MVC.view;
+			var C = {
+				//侧边导航栏模块
+				initSlideBar: function() {
+					//渲染导航栏模块视图
+					V('createSlideBar');
+					//为每一个导航图标添加鼠标光标滑过与鼠标光标离开交互事件(具体方法参考附录A中的A框架)
+					$('li', 'slidebar')
+						//鼠标移入导航icon(图标)显示导航浮层
+						.on('mouseover', function(e) {
+							$(this).addClass('show');
+						})
+						//鼠标移出导航icon (图标)隐藏导航浮层
+						.on('mouseout', function(e) {
+							$(this).removeClass('show');
+						});
+					//箭头icon (图标)动画交互
+					$('.slidebar-close', 'slidebar')
+						//点击箭头icon时
+						.on('click', function(e) {
+							//如果正在执行动画
+							if(M.getConf('slideBarCloseAnimate')) {
+								//终止操作
+								return false;
 							}
-						}
-						M.conf = {
-							//侧边导航动画配置数据
-							slideBarCloseAnimate: false
-						}
-						return { /*接口方法*/ }
-				}();
-				//侧边导航栏视图层
-				MVC.view = function() {
-						var M = MVC.model;
-						var V = {
-								//创建侧边导航模块视图
-								createslideBar: function() {
-										//导航图标内容
-										var html = ",
-										//视图渲染数据
-										data = M.getData('slideBar);
-												//屏蔽无效数据
-												if(!data II!data.length) {
-													return;
-													I1创建视图容器(参考附录A中， A框架中创建元素方法create)
-													var dom = $.create("div', {
-														'class': 'slidebar',
-														"id' : 'slidebar'
-													});
-												//视图容器模板
-												vartpl = {
-													container: [
-														'< div class="slidebar-inner"> < ul > {#content#} </
-														ul > < /div> '，
-														'< a hidefocus href="#'
-														'class="slidebar-close'
-														title = "收起" /
-														>
-														';
-													].join("), 
-														//导航图标模块模板
-														item: [
-															'<li>',
-															'< a class="icon" href="{#href#}">，
-															'< img src="common/img/{#icon#}" >，
-															'< span > {#text#} < /span>，
-															'</a>',
-															'< div class="box" >，
-															'< div>，
-															'< a class="title" href-"{#href#})" > {#itle#}</a>，
-															'< a href="{#href#}" > {#content#}</a>，
-															'< /div>，
-															'<a class="image" href="{#href#}"> < img src=" 
-															common / img / {#
-																img#
-															}
-															"/> </a>',
-															'</div> ':
-															'< /i> '
-														] join(")
-															//渲染全部导航图片模块
-															for(var i = 0, len = data.length; i < len; i++) {
-																html += $.formatestring(pl.item, data[);
-																}
-																//在页面中创建侧边导航视图
-																dom
-																	//向侧边导航模块容器中插入侧边导航视图
-																	.html(
-																		I1渲染导航视图(content为导航图片内容) $.formatestring(pl.container, {
-																			content: html
-																		})
-																	)
-																	//将侧边导航模块容器插入页面中
-																	.appendTo 'body');
-														}
-														return function(v) {
-															V[V]);
-													}
-												}(); MVC.ctrl = function() {
-													var V = MVC.view;
-													var M = MVC.model;
-													varc = {
-															//侧边导航栏模块
-															initslideBar: function() {
-																	//渲染导航栏模块视图
-																	V('createslideBar);
-																			//
-																			为每一个 导航图标添加鼠标光标滑过与鼠标光标离开交互事件(
-																				具体方法参考附录A中
-																				// A框架)
-																				$(Ii, 'slidebar')
-																				//鼠标移入导航icon (图标)显示导航浮层
-																				.on('mouseover', function(e) {
-																						$(thisl) adclass("show');
-																								//鼠标移出导航ticon (图标)隐藏导航浮层
-																								.on('mouseout', function(e) {
-																									$(this).removeclass('show');
-																								});
-																								//箭头icon (图标)动画交互
-																								$(.slidebar - close ', '
-																									slidebar)
-																								//点击箭头icon时
-																								.on("click';, function(e){
-																									//如果正在执行动画
-																									if(M.getconf('slideBarcloseAnimate)){
-																											//终止操作
-																											return false;
-																											//设置侧边导航模块动画配置数据开关为打开状态
-																											M.setconfr 'slideBarcloseAnimate', true); I1获取当前元素(箭头icon) var $this = $(this);
-																										//如果箭头icon是关闭状态(含有is-close类)
-																										if($this.hasclass("is-close)){
-																												//为侧边导航模块添加显示动画
-																												$(' .slidebar inner', 'slidebar')
-																												.animate({
-																														//动画时间
-																														duration: 800,
-																														//动画类型
-																														type: 'easeoutQuart',
-																														//动画主函数
-																														main: function(dom) {
-																															//每一帧改变导航模块容器left值
-																															dom.cs "left, -50 + this.tween * 50 + 'px");
-																														//动画结束时回调函数
-																														end: function({
-																															//设置箭头icon为打开状态(删除is-close) 类
-																															$this.removeclass(is - close ');
-																																//设置侧边导航模块动画配置数据开关为关闭状态(
-																																此时可继续进行模块
-																																//显隐动画交互)
-																																M.setconf 'slideBarcloseAnimate', false);
-																														});
-																														//如果箭头icon是打开状态(不合含is-close类 )
-																													}
-																													else {
-																														//为侧边导航模块添加显示动画
-																														$(.slidebar - inner ', '
-																															slidebar ')
-																															.animate({
-																																//动画时间
-																																duration: 800,
-																																//动画类型
-																																type: 'easeoutQuart',
-																																//动画主函数
-																																main: function(dom) {
-																																	//每一帧改变导航模块容器left值
-																																	dom.css("'ft', this.tween * -50 + 'px');
-																																		//动画结束时回调函数
-																																		end: function() {
-																																			I1设置箭头icon为打开状态(删除is - close) 类
-																																			$this.addclass(is - close ');
-																																				//设置侧边导航模块动画配置数据开关为关闭状态(
-																																				此时可继续进行模块
-																																				//显隐动画交互)
-																																				M.setconf 'slideBarcloseAnimate', false);
-																																		}
-																																	});
-																															})
-																														}
-																														//为侧边导航模块添加交互与动画特效
-																														c.initslideBar();
-																													}();
+							//设置侧边导航模块动画配置数据开关为打开状态
+							M.setConf('slideBarCloseAnimate', true);
+							//获取当前元素(箭头icon)
+							var $this = $(this);
+							//如果箭头icon是关闭状态(含有is-close类)
+							if($this.hasClass('is-close')) {
+								//为侧边导航模块添加显示动画
+								$('.slidebar-inner', 'slidebar')
+									.animate({
+										//动画时间
+										duration: 800,
+										//动画类型
+										type: 'easeOutQuart',
+										//动画主函数
+										main: function(dom) {
+											//每一帧改变导航模块容器left值
+											dom.css('left', -50 + this.tween * 50 + 'px');
+										},
+										//动画结束时回调函数
+										end: function() {
+											//设置箭头icon为打开状态(删除is-close)类
+											$this.removeClass('is-close');
+											//设置侧边导航模块动画配置数据开关为关闭状态(此时可继续进行模块显隐动画交互)
+											M.setConf('slideBarCloseAnimate', false);
+										}
+									});
+								//如果箭头icon是打开状态（不含is-close类）
+							} else {
+								//为侧边导航模块添加显示动画
+								$('.slidlebar-inner', 'slidebar')
+									.animate({
+										//动画时间
+										duration: 800,
+										//动画类型
+										type: 'easeOutQuart',
+										//动画主函数
+										main: function(dom) {
+											//每一帧改变导航模块容器lef值
+											dom.css('left', this.tween * -50 + 'px');
+										},
+										//动画结束时回调函数
+										end: function() {
+											//设置箭头icon为打开状态(删除is-close) 类
+											$this.addClass('is-close');
+											//设置侧边导航模块动画配置数据开关为关闭状态(此时可继续进行模块显隐动画交互
+											M.setConf('slideBarCloseAnimate', false);
+										}
+									});
+							}
+						})
+				}
+			};
+			//为侧边导航模块添加交互与动画特效
+			C.initSlideBar();
+		}();
 
-																													var C = {
-																														//侧边导航栏模块
-																														initslideBar: function()
-																													}()
-																												};
-																												"第二种，
-																												可以在对象末尾处遍历内部对象c中的每一个方法并执行”
-																												for(var iin c) {
-																													//如果模块方法存在则执行
-																													c[i] && c[]();
-																													MVC.model = function() {
-																															var M = {};
-																															M.data = {
-																																	//左侧侧边栏导航服务器端请求得到的响应数据
-																																	slideBar: [
-																																			/...
-																																		]， /
-																																		* 新增模块追加代码 * /
-																																	newsMod: []
-																																	M.conf = {
-																																		//侧边导航动画配置数据
-																																		slideBarcloseAnimate: false
-																																		/*新增模块追加代码*/
-																																		// newModcon...
-																																		return {
-																																			// ...
-																																		}
-																																	}();
-																																	MVC.view = function() {
-																																		var M = MVC.model;
-																																		varV = {
-																																				//创建侧边导航模块视图
-																																				createslideBar: function() {
-																																					/....
-																																				},
-																																				/*新增模块追加代码*/
-																																				createNewMod: function() {
-																																						/...
-																																						return function(v) {
-																																							V[M();
-																																							}
-																																						}();
-																																						MVC.ctrl = function() {
-																																								var V = MVC.view;
-																																								var M = MVC.model;
-																																								var C = {
-																																										//侧边导航栏模块
-																																										initslideBar: function() {
-																																											/....
-																																											/*新增模块追加代码*/
-																																											initNewMod: function() {
-																																												...
-																																											}
-																																										};
-																																										//为侧边导航模块添加交互与动画特效
-																																										for(var iin c) {
-																																											c[] && c[]();
-																																										}();
+		var C = {
+			//侧边导航栏模块
+			initSlideBar: function() {}()
+		};
+		//第二种,可以在对象末尾处遍历内部对象C中的每一个方法并执行
+		for(var i in C) {
+			//如果模块方法存在则执行
+			C[i] && C[i]();
+		}
+		MVC.model = function() {
+			var M = {};
+			M.data = {
+				//左侧侧边栏导航服务器端请求得到的响应数据
+				slideBar: [
+					//...
+				],
+				/*新增模块追加代码 */
+				newsMod: [
+					//...
+				]
+			}
+			M.conf = {
+				//侧边导航动画配置数据
+				slideBarCloseAnimate: false,
+				/*新增模块追加代码*/
+				// newModConf...
+			}
+			return {
+				// ...
+			}
+		}();
+		MVC.view = function() {
+			var M = MVC.model;
+			var V = {
+				//创建侧边导航模块视图
+				createSlideBar: function() {
+					//...
+				},
+				/*新增模块追加代码*/
+				createNewMod: function() {
+					//...
+				}
+			}
+			return function(v) {
+				V[v]();
+			}
+		}();
+		MVC.ctrl = function() {
+			var V = MVC.view;
+			var M = MVC.model;
+			var C = {
+				//侧边导航栏模块
+				initSlideBar: function() {
+					//...
+				},
+				/*新增模块追加代码*/
+				initNewMod: function() {
+					//...
+				}
+			};
+			//为侧边导航模块添加交互与动画特效
+			for(var i in c) {
+				C[i] && C[i]();
+			}
+		}();
 	</script>
 
 </html>
