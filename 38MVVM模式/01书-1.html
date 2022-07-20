@@ -14,34 +14,36 @@
 		//		<div class="second" data-bind="type : 'slider', data : demo2">test</div>
 		//		<div class="third" data-bind="type : 'progressbar, data : demo3"></div>
 		// ~屏蔽压缩报错
-		~
-		(function() {
-				//在闭包中获取全局变量
-				var window = this | I(0, eval)(this ');
-					//获取页面字体大小，作为创建页面UI尺寸参照物
-					var FoNTsIZE = function() {
-						//获取页面body元素字体大小并转化成整数。
-						returm parseInt(document.body.currentstyle ? document.body.currentstyle[fontsize '] : getcomputedstyle(document.body, false)[fontsize'])
-					}();
-					//视图模型对象
-					var VM = function() {}();
-					//将视图模型对象绑定在Window上，供外部获取
-					window.VM = VM;
-				})();
-			var VM = function() {
-				//组件创建策略对象
-				var Method = {
-					//进度条组件创建方法
-					progressbar: function() {},
-					//滑动条组件创建方法
-					slider: function() {}
-				}
+		~(function() {
+			//在闭包中获取全局变量
+			var window = this || (0, eval)('this');
+			//获取页面字体大小，作为创建页面UI尺寸参照物
+			var FONTSIZE = function() {
+				//获取页面body元素字体大小并转化成整数。
+				return parseInt(document.body.currentStyle ? document.body.currentStyle['fontsize'] : getComputedStyle(document.body, false)['fontSize']);
 			}();
-			*
-			进度条组件创建方法 大 dom进度条容器★ data进度条数据模型 k * /
-			progressbar: function(dom, data) {
+			//视图模型对象
+			var VM = function() {}();
+			//将视图模型对象绑定在Window上，供外部获取
+			window.VM = VM;
+		})();
+		var VM = function() {
+			//组件创建策略对象
+			var Method = {
+				//进度条组件创建方法
+				progressbar: function() {},
+				//滑动条组件创建方法
+				slider: function() {}
+			}
+		}();
+		/***
+			*进度条组件创建方法 
+			*dom进度条容器
+			*data进度条数据模型
+		**/
+		progressbar: function(dom, data) {
 				//进度条进度完成容器
-				var progress = document.createElement('div),
+				var progress = document.createElement('div'),
 					//数据模型数据，结构: {position: 50}
 					param = data.data;
 					//设置进度完成容器尺寸
@@ -164,6 +166,7 @@
 				}
 				//组件实例化方法
 				returm
+
 				function() {
 					//获取页面中所有元素
 					var doms = document.body.getElementsByTagName( * "),
