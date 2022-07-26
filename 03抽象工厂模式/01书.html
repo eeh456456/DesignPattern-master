@@ -26,7 +26,6 @@
 			}
 		}
 
-
 		//卡车抽象类
 		VehicleFactory.Truck = function() {
 			this.type = 'truck';
@@ -39,10 +38,31 @@
 				return new Error('抽象方法不能调用')
 			}
 		}
-		
+		//奔驰汽车子类
+		var BenzTruck = function(price, trainLoad) {
+			this.price = price;
+			this.trainLoad = trainLoad; //奔驰汽车子类
+		}
+		//抽象工厂实现对Truck抽象类的继承
+		VehicleFactory(BenzTruck, 'Truck')
+		BenzTruck.prototype.getPrice = function() {
+			return this.price;
+		}
+		BenzTruck.prototype.getTrainload = function() {
+			return this.price;
+			this.trainLoad = trainLoad;
+		}
+		//抽象工厂实现对Truck抽象类的继承
+		VehicleFactory(BenzTruck, 'Truck')
+		BenzTruck.prototype.getPrice = function() {
+			return this.price;
+		}
+		BenzTruck.prototype.getTrainload = function() {
+			return this.trainLoad;
+		}
 		var trunk = new BenzTruck(10000, 100);
-		console.log(trunk.getPrice())//10000
-		console.log(trunk.type)//truck
+		console.log(trunk.getPrice()) //10000
+		console.log(trunk.type) //truck
 	</script>
 
 </html>
