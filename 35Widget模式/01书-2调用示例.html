@@ -5,7 +5,7 @@
 		<meta charset="UTF-8">
 		<title></title>
 		<style>
-			#demo_textarea{
+			#demo_textarea {
 				height: 500px;
 				width: 500px;
 			}
@@ -16,13 +16,12 @@
 		//页面元素内容
 		<div id="demo_tag" class="template">
 			<div id="tag_cloud">
-				{% for(var i= 0, len = tagCloud.length; i<len; i++){
-				 var ctx=tagCloud[i];%}
-				 <a href="#" class="tag_item {% if(ctx['is_selected']){%}
-				 selected
+				{% for(var i= 0, len = tagCloud.length; i
+				<len; i++){ var ctx=t agCloud[i];%} <a href="#" class="tag_item {% if(ctx['is_selected']){ %}
+				 	selected
 				 {% }%}
-				 " title="{%=ctx["title"]%}"> {%=ctx["text"]%} </a>
-				{% } %}
+				 " title="{%=ctx[" title "]%}"> {%=ctx["text"]%} </a>
+					{% } %}
 			</div>
 		</div>
 		//表单元素内的内容
@@ -30,65 +29,71 @@
 			<div id="tag_cloud">
 			{% for(var i = 0, len = tagCloud.length; i <len; i++){
 			var ctx = tagCloud[i]; %}
-			<a href="#" class="tag_item{% if(ctx['is_selected"]){ %}
+			<a href="#" class="tag_item{% if(ctx["is_selected"]){ %}
 				selected
 			{% }%}
 			" title="{%=ctx["title"]%}"> {%=ctx["text"]%}</a>
 			{% } %}
 			</div>
-		</textarea> 
-		</body>
-		<!--script模板内容-->
-		<script type="textemplate" id="demo_script">
-				<div id="tag_cloud">
-					{% for(var i = 0, len = tagCloud.length; i < len; i++){
-					 var ctx=tagCloud[i];%}
-					 <a href="#" class="tag_item
-					{% if(ctx["is_selected"]){ %}
-					selected
+		</textarea>
+	</body>
+	<!--script模板内容-->
+	<script type="text/template" id="demo_script">
+		<div id="tag_cloud">
+			{% for(var i = 0, len = tagCloud.length; i
+			< len; i++){ var ctx=tagCloud[i];%} <a href="#" class="tag_item
+					{% if(ctx[" is_selected "]){ %}
+						selected
 					{% } %}
-					" title="{%=ctx["title"]%}">{%=ctx["text"]%} </a>
-					{% } %}
-				</div>
-			//自定义模板
-			 var demo_tpl= ['<div id="tag_cloud">,
-				'{% for(var i= 0, len = tagCloud.length; i<len; i++){',
-				'var ctx = tagCloud[i]; %}',	
-				'<a href="#" class="tag_item ',
-				{% if(ctx["is_selected"]){ %},
-				 	'selected',
-				 '{% } %}',
-				 '" title="{%=ctx["title"]%}"> {%=ctx["text"]%} </a>',
-				'{% } %}',
-				'</div>'].join('');
-				<script>
-					var data = {
-							tagCloud: [{
-										is_selected: true,
-										title: '这是一本设计模式书', text: '设计模式'
-									},
-									{
-										is_selected: false,
-										title: '这是一本HTML书', text: 'HTML'
-									},
-									{
-										is_selected: null,
-										title: '这是一本css书',text: 'css'
-									},
-									{
-										is_selected: '', title:'这是一本Javascript书',
-										text: 'Javascript',
-									}]
-							};
-			/* widget/tag_cloud.js*/
-			F.module(['lib/template', lib/dom'], function(template, dom){
-				//服务器端获取到data数据逻辑
-				//创建组件视图逻辑
-				var str = template('demo_ script', data);
-				dom.html(test, str); 
-				//组件其他交互逻辑
-			});
-					
-								
-		</script>
+					" title="{%=ctx[" title "]%}">{%=ctx["text"]%} </a>
+				{% } %}
+		</div>
+	</script>
+	<script src="../33同步模块模式/module.js"></script>
+	<script>
+		//自定义模板
+		var demo_tpl = ['<div id="tag_cloud">',
+			'{% for(var i= 0, len = tagCloud.length; i < len; i++){',
+			'var ctx = tagCloud[i]; %}',
+			'<a href="#" class="tag_item ',
+			'{% if(ctx["is_selected"]){ %}',
+			'selected',
+			'{% } %}',
+			'" title="{%=ctx["title"]%}"> {%=ctx["text"]%} </a>',
+			'{% } %}',
+			'</div>'
+		].join('');
+		var data = {
+			tagCloud: [{
+					is_selected: true,
+					title: '这是一本设计模式书',
+					text: '设计模式'
+				},
+				{
+					is_selected: false,
+					title: '这是一本HTML书',
+					text: 'HTML'
+				},
+				{
+					is_selected: null,
+					title: '这是一本css书',
+					text: 'css'
+				},
+				{
+					is_selected: '',
+					title: '这是一本Javascript书',
+					text: 'Javascript',
+				}
+			]
+		};
+		/* widget/tag_cloud.js*/
+		F.module(['lib/template', 'lib/dom'], function(template, dom) {
+			//服务器端获取到data数据逻辑
+			//创建组件视图逻辑
+			var str = template('demo_script', data);//这个template未定义，不明白是怎么回事
+			dom.html('test', str);
+			//组件其他交互逻辑
+		});
+	</script>
+
 </html>
