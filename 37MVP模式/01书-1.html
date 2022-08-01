@@ -4,36 +4,59 @@
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
-		<script type="text/javascript"
-		 src="../附录/A.js">
+		<script type="text/javascript" src="../附录/A.js">
 		</script>
 		<script src="../33同步模块模式/module.js"></script>
 	</head>
 
 	<body>
-		<div id="container"></div>
+		<div id="container">这代码我hold不住</div>
 	</body>
 	<script>
 		// MVP模块
-		~(function(window) {
-			// MVP构造函数
-			var MVP = function() {};
-			//数据层
-			MVP.model = function() {};
-			//视图层
-			MVP.view = function() {};
-			//管理层
-			MVP.presenter = function() {};
-			// MVP入口
-			MVP.init = function() {}
-			//暴露MVP对象,这样即可在外部访问MVP
-			window.MVP = MVP;
-		})(window)
+		//		~(function(window) {
+		// MVP构造函数
+		var MVP = function() {};
+		//数据层
+		MVP.model = function() {};
+		//视图层
+		MVP.view = function() {};
+		//管理层
+		MVP.presenter = function() {};
+		// MVP入口
+		MVP.init = function() {}
+		//暴露MVP对象,这样即可在外部访问MVP
+		window.MVP = MVP;
+		//		})(window)
 		//数据层与MVC模式中的数据层相似
 		MVP.model = function() {
 			var M = {};
-			M.data = {};
 			M.conf = {};
+			M.data = {
+				//导航模块渲染数据
+				nav: [{
+						text: '新闻头条',
+						mode: 'news',
+						url: 'http: //www.example.com/01'
+					},
+					{
+						text: '最新电影',
+						mode: 'movie',
+						url: 'http: //www.example.com/02'
+					},
+					{
+						text: '热门游戏 ',
+						mode: 'game',
+						url: 'http: //www.example.com/03'
+					},
+					{
+						text: '今日特价',
+						mode: 'price',
+						url: 'http: //www.example.com/04'
+					}
+				]
+			};
+
 			return {
 				getData: function(m) {
 					return M.data[m];
@@ -201,8 +224,8 @@
 				data[data.length - 1].last = 'last';
 				//获取导航渲染模板
 				var tpl = V('li.@mode @choose @last[data-mode=@mode]>a#nav_@mode.nav-@mode[href=@url title=@text]>i.nav-icon-@mode+span{@text}');
-					//创建导航容器:
-					$.create('ul', {
+				//创建导航容器:
+				$.create('ul', {
 						'class': 'navigation',
 						'id': 'nav'
 					})
@@ -217,30 +240,6 @@
 				//。。。
 			}
 		};
-		M.data = {
-			//导航模块渲染数据
-			nav: [{
-					text: '新闻头条',
-					mode: 'news',
-					url: 'http: //www.example.com/01'
-				},
-				{
-					text: '最新电影',
-					mode: 'movie',
-					url: 'http: //www.example.com/02'
-				},
-				{
-					text: '热门游戏 ',
-					mode: 'game',
-					url: 'http: //www.example.com/03'
-				},
-				{
-					text: '今日特价',
-					mode: 'price',
-					url: 'http: //www.example.com/04'
-				}
-			]
-		};
 
 		// MVP入口
 		MVP.init = function() {
@@ -251,7 +250,7 @@
 			MVP.init();
 		}
 
-		F.modulel('lib/MVP', function() {
+		F.module('lib/MVP', function() {
 			// MVP构造函数
 			var MVP = function() {};
 			// MVP实现
@@ -271,7 +270,7 @@
 			return {
 				init: function() {},
 				/***
-				 *为管理器添加模块
+				 * 为管理器添加模块
 				 * @param modName 模块名称
 				 * @param pst     模块管理器
 				 **/
@@ -282,7 +281,7 @@
 			};
 		}();
 		//网址模块
-		F.module('lib/MVP', 'lib/A'],
+		F.module(['lib/MVP', 'lib/A'],
 			function(MVP, $) {
 				//页面加载完成执行 参考附录中A框架
 				$(function() {
@@ -298,10 +297,9 @@
 						 **/
 						function(M, V, modName) {
 							//渲染模板<li> <a href="#"> {#text#}</a> </li>
-							var tpl = V('li> a[href="#"]{@text}');
-							$
-								//创建网址模块容器
-								.create('ul', {
+							var tpl = V('li>a[href="#"]{@text}');
+							//创建网址模块容器
+							$.create('ul', {
 									'class': 'store-nav',
 									'id': modName
 								})
@@ -324,7 +322,7 @@
 						]
 					);
 				});
-			})
+			});
 		//模块创建完毕我们就可以执行所有模块控制器了。
 		$(function() {
 			MVP.init();
